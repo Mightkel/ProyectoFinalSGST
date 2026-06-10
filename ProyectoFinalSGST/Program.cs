@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello, World!");
+﻿int MainMenu()
+{
+    Console.WriteLine("")
+}
