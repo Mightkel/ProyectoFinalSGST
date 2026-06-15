@@ -1,6 +1,4 @@
-﻿using System;
-
-Incidencia[] incidencias = new Incidencia[100];
+﻿Incidencia[] incidencias = new Incidencia[100];
 int cantidad = 0;
 
 int MainMenu()
@@ -8,12 +6,14 @@ int MainMenu()
     Console.ForegroundColor = ConsoleColor.DarkBlue;
     Console.WriteLine("=== SISTEMA DE SOPORTE TECNOLOGIA UAM ===");
     Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Gray;
     Console.WriteLine("1. Gestión de incidencias");
     Console.WriteLine("2. Gestión de Técnicos");
     Console.WriteLine("3. Reportes y estadísticas");
     Console.WriteLine("4. Guardar información");
     Console.WriteLine("5. Cargar información");
     Console.WriteLine("0. Salir");
+    Console.ResetColor();
     Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
@@ -143,6 +143,7 @@ void BuscarIncidencia()
     }
 
     Console.ReadKey();
+    Console.WriteLine();
 }
 
 void ModificarIncidencia()
@@ -180,6 +181,7 @@ void ModificarIncidencia()
     }
 
     Console.ReadKey();
+    Console.WriteLine();
 }
 
 void EliminarIncidencia()
@@ -222,6 +224,7 @@ void EliminarIncidencia()
     }
 
     Console.ReadKey();
+    Console.WriteLine();
 }
 
 void MostrarIncidencias()
@@ -250,6 +253,7 @@ void MostrarIncidencias()
     }
 
     Console.ReadKey();
+    Console.WriteLine();
 }
 
 
@@ -327,7 +331,7 @@ Main();
 
 struct Incidencia
 {
-    public string? Codigo;
+    public string Codigo;
     public string Reportante;
     public string TipoUsuario;
     public string Aula;
