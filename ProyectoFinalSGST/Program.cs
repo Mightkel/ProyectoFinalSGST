@@ -210,3 +210,120 @@ void IncidenciasPorEdificio()
 }
 
 
+void IncidenciasPorPiso()
+{
+    int piso1 = 0;
+    int piso2 = 0;
+    int piso3 = 0;
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        int piso = int.Parse(incidencias[i].Aula[2].ToString());
+
+        switch (piso)
+        {
+            case 1:
+                piso1++;
+                break;
+
+            case 2:
+                piso2++;
+                break;
+
+            case 3:
+                piso3++;
+                break;
+        }
+    }
+
+    Console.WriteLine("===== INCIDENCIAS POR PISO =====");
+    Console.WriteLine($"Piso 1: {piso1}");
+    Console.WriteLine($"Piso 2: {piso2}");
+    Console.WriteLine($"Piso 3: {piso3}");
+
+    Console.ReadKey();
+}
+
+void TecnicoMasOcupado()
+{
+    if (cantidadTecnicos == 0)
+    {
+        Console.WriteLine("No hay técnicos registrados.");
+        Console.ReadKey();
+        return;
+    }
+
+    int mayor = 0;
+
+    for (int i = 1; i < cantidadTecnicos; i++)
+    {
+        if (tecnicos[i].casos > tecnicos[mayor].casos)
+            mayor = i;
+    }
+
+    Console.WriteLine("===== TÉCNICO MÁS OCUPADO =====");
+    Console.WriteLine($"Nombre: {tecnicos[mayor].nombre}");
+    Console.WriteLine($"Casos: {tecnicos[mayor].casos}");
+
+    Console.ReadKey();
+}
+
+void TecnicoMenosOcupado()
+{
+    if (cantidadTecnicos == 0)
+    {
+        Console.WriteLine("No hay técnicos registrados.");
+        Console.ReadKey();
+        return;
+    }
+
+    int menor = 0;
+
+    for (int i = 1; i < cantidadTecnicos; i++)
+    {
+        if (tecnicos[i].casos < tecnicos[menor].casos)
+            menor = i;
+    }
+
+    Console.WriteLine("===== TÉCNICO MENOS OCUPADO =====");
+    Console.WriteLine($"Nombre: {tecnicos[menor].nombre}");
+    Console.WriteLine($"Casos: {tecnicos[menor].casos}");
+
+    Console.ReadKey();
+}
+
+void AulaConMasReportes()
+{
+    if (cantidad == 0)
+    {
+        Console.WriteLine("No hay incidencias.");
+        Console.ReadKey();
+        return;
+    }
+
+    string aulaMayor = "";
+    int maximo = 0;
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        int contador = 0;
+
+        for (int j = 0; j < cantidad; j++)
+        {
+            if (incidencias[i].Aula == incidencias[j].Aula)
+                contador++;
+        }
+
+        if (contador > maximo)
+        {
+            maximo = contador;
+            aulaMayor = incidencias[i].Aula;
+        }
+    }
+
+    Console.WriteLine("===== AULA CON MÁS REPORTES =====");
+    Console.WriteLine($"Aula: {aulaMayor}");
+    Console.WriteLine($"Cantidad de incidencias: {maximo}");
+
+    Console.ReadKey();
+}
