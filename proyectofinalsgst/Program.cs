@@ -1,6 +1,4 @@
-﻿// GESTION DE TECNICOS
-
-Tecnico[] tecnicos = new Tecnico[50];
+﻿Tecnico[] tecnicos = new Tecnico[50];
 int cantidadTecnicos = 0;
 
 void RegistrarTecnico()
