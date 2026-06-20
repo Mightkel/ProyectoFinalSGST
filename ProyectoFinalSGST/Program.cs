@@ -6,6 +6,7 @@ int cantidadTecnicos = 0;
 
 int MainMenu()
 {
+    Console.Clear();
     Console.ForegroundColor = ConsoleColor.DarkBlue;
     Console.WriteLine("=== SISTEMA DE SOPORTE TECNOLOGIA UAM ===");
     Console.ResetColor();
@@ -20,11 +21,24 @@ int MainMenu()
     Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
-    return int.Parse(Console.ReadLine()!);
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
+
 }
 
 int MenuIncidencias()
 {
+    Console.Clear();
     Console.ForegroundColor = ConsoleColor.DarkCyan;
     Console.WriteLine("=== GESTION DE INCIDENCIAS ===");
     Console.WriteLine("1. Registrar incidencia");
@@ -36,11 +50,23 @@ int MenuIncidencias()
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
-    return int.Parse(Console.ReadLine()!);
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
 }
 
 int MenuTecnicos()
 {
+    Console.Clear();
     Console.ForegroundColor = ConsoleColor.DarkCyan;
     Console.WriteLine("=== GESTION DE TÉCNICOS ===");
     Console.WriteLine("1. Registrar técnico");
@@ -51,11 +77,23 @@ int MenuTecnicos()
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
-    return int.Parse(Console.ReadLine()!);
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
 }
 
 int MenuReportes()
 {
+    Console.Clear();
     Console.ForegroundColor = ConsoleColor.DarkCyan;
     Console.WriteLine("=== REPORTES Y ESTADÍSTICAS ===");
     Console.WriteLine("1. Reporte general");
@@ -70,42 +108,296 @@ int MenuReportes()
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
-    return int.Parse(Console.ReadLine()!);
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
 }
 
 // GESTION DE INCIDENCIAS
+void CodigoIncidencia()
+{
+    string codigo;
+    bool repetido;
 
+    do
+    {
+        repetido = false;
+
+        Console.Write("Código de incidencia: ");
+        codigo = Console.ReadLine()!;
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            if (incidencias[i].Codigo.ToUpper() == codigo.ToUpper())
+            {
+                repetido = true;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR: El código ya existe.");
+                Console.ResetColor();
+
+                break;
+            }
+        }
+
+    } while (repetido);
+
+    incidencias[cantidad].Codigo = codigo;
+
+}
+
+int TipoUsuario()
+{
+    Console.WriteLine("Seleccione el tipo de usuario:");
+    Console.WriteLine("1. Estudiante");
+    Console.WriteLine("2. Docente");
+    Console.WriteLine("3. Administrativo");
+    Console.WriteLine("4. Otro");
+    Console.Write("Digite su opción: ");
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
+}
+
+int AulaIncidencia()
+{
+    Console.Write("Aula (Ejemplo: A-101): ");
+    string aula = Console.ReadLine()!;
+    if (aula.Length == 4 && char.IsLetter(aula[0]) && char.IsPunctuation(aula[1]) && char.IsDigit(aula[2]) && char.IsDigit(aula[3]) && char.IsDigit(aula[4]))
+    {
+        return 1; // Aula válida
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. El formato del aula debe ser una letra seguida de tres dígitos (Ejemplo: A101).");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1; // Aula no válida
+    }
+}
+
+int CategoriaIncidencia()
+{
+    Console.WriteLine("Seleccione la categoría de la incidencia:");
+    Console.WriteLine("1. Hardware");
+    Console.WriteLine("2. Software");
+    Console.WriteLine("3. Red");
+    Console.WriteLine("4. Impresoras");
+    Console.WriteLine("5. Otro");
+    Console.Write("Digite su opción: ");
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
+}
+
+string LeerFecha()
+{
+    string fecha;
+
+    do
+    {
+        Console.Write("Fecha (dd/MM/yyyy): ");
+        fecha = Console.ReadLine()!;
+
+        if (DateTime.TryParseExact(
+            fecha,
+            "dd/MM/yyyy",
+            null,
+            System.Globalization.DateTimeStyles.None,
+            out _))
+        {
+            return fecha;
+        }
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Fecha inválida. Use el formato dd/MM/yyyy.");
+        Console.ResetColor();
+
+    } while (true);
+}
+
+int PrioridadIncidencia()
+{
+    Console.WriteLine("Seleccione la prioridad de la incidencia:");
+    Console.WriteLine("1. Baja");
+    Console.WriteLine("2. Media");
+    Console.WriteLine("3. Alta");
+    Console.WriteLine("4. Crítica");
+    Console.Write("Digite su opción: ");
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
+}
+
+int EstadoIncidencia()
+{
+    Console.WriteLine("Seleccione el estado de la incidencia:");
+    Console.WriteLine("1. Abierta");
+    Console.WriteLine("2. En proceso");
+    Console.WriteLine("3. Cerrada");
+    Console.Write("Digite su opción: ");
+    try
+    {
+        return int.Parse(Console.ReadLine()!);
+    }
+    catch (FormatException)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
+        Console.ResetColor();
+        Console.ReadKey();
+        return -1;
+    }
+}
 void RegistrarIncidencia()
 {
     Console.Clear();
 
-    Console.Write("Codigo: ");
-    incidencias[cantidad].Codigo = Console.ReadLine()!;
+    CodigoIncidencia();
 
     Console.Write("Nombre del reportante: ");
     incidencias[cantidad].Reportante = Console.ReadLine()!;
 
-    Console.Write("Tipo de usuario: ");
-    incidencias[cantidad].TipoUsuario = Console.ReadLine()!;
+    switch (TipoUsuario())
+    {
+        case 1:
+            incidencias[cantidad].TipoUsuario = "Estudiante";
+            break;
+        case 2:
+            incidencias[cantidad].TipoUsuario = "Docente";
+            break;
+        case 3:
+            incidencias[cantidad].TipoUsuario = "Administrativo";
+            break;
+        case 4:
+            incidencias[cantidad].TipoUsuario = "Otro";
+            break;
+        default:
+            Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+            incidencias[cantidad].TipoUsuario = "Otro";
+            Console.ReadKey();
+            break;
+    }
 
-    Console.Write("Aula: ");
-    incidencias[cantidad].Aula = Console.ReadLine()!;
+    switch (AulaIncidencia())
+    {
+        case 1:
+            incidencias[cantidad].Aula = Console.ReadLine()!;
+            break;
+        default:
+            Console.WriteLine("Aula no válida. Se asignará 'Desconocida' por defecto.");
+            incidencias[cantidad].Aula = "Desconocida";
+            Console.ReadKey();
+            break;
+    }
 
-    Console.Write("Categoria: ");
-    incidencias[cantidad].Categoria = Console.ReadLine()!;
+    switch (CategoriaIncidencia())
+    {
+        case 1:
+            incidencias[cantidad].Categoria = "Hardware";
+            break;
+        case 2:
+            incidencias[cantidad].Categoria = "Software";
+            break;
+        case 3:
+            incidencias[cantidad].Categoria = "Red";
+            break;
+        case 4:
+            incidencias[cantidad].Categoria = "Impresoras";
+            break;
+        case 5:
+            incidencias[cantidad].Categoria = "Otro";
+            break;
+        default:
+            Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+            incidencias[cantidad].Categoria = "Otro";
+            Console.ReadKey();
+            break;
+    }
 
     Console.Write("Descripcion: ");
     incidencias[cantidad].Descripcion = Console.ReadLine()!;
 
-    Console.Write("Fecha: ");
-    incidencias[cantidad].Fecha = Console.ReadLine()!;
+    LeerFecha();
+    incidencias[cantidad].Fecha = LeerFecha();
 
-    Console.Write("Prioridad: ");
-    incidencias[cantidad].Prioridad = Console.ReadLine()!;
+    switch(PrioridadIncidencia())
+    {
+        case 1:
+            incidencias[cantidad].Prioridad = "Baja";
+            break;
+        case 2:
+            incidencias[cantidad].Prioridad = "Media";
+            break;
+        case 3:
+            incidencias[cantidad].Prioridad = "Alta";
+            break;
+        case 4:
+            incidencias[cantidad].Prioridad = "Crítica";
+            break;
+        default:
+            Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
+            incidencias[cantidad].Prioridad = "Baja";
+            Console.ReadKey();
+            break;
+    }
 
-    Console.Write("Estado: ");
-    incidencias[cantidad].Estado = Console.ReadLine()!;
 
+    switch (EstadoIncidencia())
+    {
+        case 1:
+            incidencias[cantidad].Estado = "Abierta";
+            break;
+        case 2:
+            incidencias[cantidad].Estado = "En proceso";
+            break;
+        case 3:
+            incidencias[cantidad].Estado = "Cerrada";
+            break;
+        default:
+            Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
+            incidencias[cantidad].Estado = "Abierta";
+            Console.ReadKey();
+            break;
+    }
+ 
     cantidad++;
 
     Console.WriteLine("\nIncidencia registrada correctamente.");
@@ -404,6 +696,7 @@ void ReasignarTecnico()
 //Reportes Y Estadísticas
 void ReporteGeneral()
 {
+    Console.Clear();
     int abiertas = 0;
     int proceso = 0;
     int cerradas = 0;
@@ -431,6 +724,7 @@ void ReporteGeneral()
 
 void IncidenciasPorCategoria()
 {
+    Console.Clear();
     int hardware = 0;
     int software = 0;
     int red = 0;
@@ -475,6 +769,7 @@ void IncidenciasPorCategoria()
 
 void IncidenciasPorPrioridad()
 {
+    Console.Clear();
     int baja = 0;
     int media = 0;
     int alta = 0;
@@ -615,9 +910,11 @@ void IncidenciasPorEdificio()
 
 void IncidenciasPorPiso()
 {
+    Console.Clear();
     int piso1 = 0;
     int piso2 = 0;
     int piso3 = 0;
+    int piso4 = 0;
 
     for (int i = 0; i < cantidad; i++)
     {
@@ -636,6 +933,9 @@ void IncidenciasPorPiso()
             case 3:
                 piso3++;
                 break;
+            case 4:
+                piso4++;
+                break;
         }
     }
 
@@ -643,12 +943,14 @@ void IncidenciasPorPiso()
     Console.WriteLine($"Piso 1: {piso1}");
     Console.WriteLine($"Piso 2: {piso2}");
     Console.WriteLine($"Piso 3: {piso3}");
+    Console.WriteLine($"Piso 4: {piso4}");
 
     Console.ReadKey();
 }
 
 void TecnicoMasOcupado()
 {
+    Console.Clear();
     if (cantidadTecnicos == 0)
     {
         Console.WriteLine("No hay técnicos registrados.");
@@ -673,6 +975,7 @@ void TecnicoMasOcupado()
 
 void TecnicoMenosOcupado()
 {
+    Console.Clear();
     if (cantidadTecnicos == 0)
     {
         Console.WriteLine("No hay técnicos registrados.");
@@ -697,6 +1000,7 @@ void TecnicoMenosOcupado()
 
 void AulaConMasReportes()
 {
+    Console.Clear();
     if (cantidad == 0)
     {
         Console.WriteLine("No hay incidencias.");
@@ -733,6 +1037,7 @@ void AulaConMasReportes()
 
 void Main()
 {
+    Console.Clear();
     int opcionMain;
     do
     {
