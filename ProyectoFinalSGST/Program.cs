@@ -10,7 +10,9 @@ int MainMenu()
 {
     Console.Clear();
     Console.ForegroundColor = ConsoleColor.DarkBlue;
+    Console.WriteLine("=========================================");
     Console.WriteLine("=== SISTEMA DE SOPORTE TECNOLOGIA UAM ===");
+    Console.WriteLine("=========================================");
     Console.ResetColor();
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.WriteLine("1. Gestión de incidencias");
@@ -294,6 +296,16 @@ void RegistrarIncidencia()
 {
     Console.Clear();
 
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("          REGISTRAR INCIDENCIA           ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
     CodigoIncidencia();
 
     Console.Write("Nombre del reportante: ");
@@ -409,8 +421,16 @@ void RegistrarIncidencia()
 void BuscarIncidencia()
 {
     Console.Clear();
-
-    Console.Write("Ingrese codigo: ");
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("           BUSCAR INCIDENCIA             ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.Write("Código a buscar: ");
     string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
@@ -451,10 +471,18 @@ void ModificarIncidencia()
 {
     Console.Clear();
 
-    Console.ForegroundColor = ConsoleColor.DarkYellow;
-    Console.Write("Codigo a modificar: ");
-    string buscar = Console.ReadLine()!;
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
     Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("           MODIFICAR INCIDENCIA          ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
+    Console.Write("Código a modificar: ");
+    string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
 
@@ -526,7 +554,17 @@ void EliminarIncidencia()
 {
     Console.Clear();
 
-    Console.Write("Codigo a eliminar: ");
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("           ELIMINAR INCIDENCIA           ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
+    Console.Write("Código a eliminar: ");
     string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
@@ -577,7 +615,9 @@ void MostrarIncidencias()
     {
         for (int i = 0; i < cantidad; i++)
         {
-            Console.WriteLine("\n====================");
+            Console.ForegroundColor= ConsoleColor.Green;
+            Console.WriteLine("\n===========================");
+            Console.ResetColor();
             Console.WriteLine("Codigo: " + incidencias[i].Codigo);
             Console.WriteLine("Reportante: " + incidencias[i].Reportante);
             Console.WriteLine("Tipo de Usuario: " + incidencias[i].TipoUsuario);
@@ -605,6 +645,15 @@ void RegistrarTecnico()
         Console.ReadKey();
         return;
     }
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("            REGISTRAR TÉCNICO            ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
 
     Console.Write("ID: ");
     int id = int.Parse(Console.ReadLine()!);
@@ -648,6 +697,16 @@ void MostrarTecnicos()
 {
     Console.Clear();
 
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("            MOSTRAR TÉCNICOS             ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
     if (cantidadTecnicos == 0)
     {
         Console.WriteLine("No hay técnicos registrados.");
@@ -671,6 +730,16 @@ void MostrarTecnicos()
 void AsignarTecnico()
 {
     Console.Clear();
+
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("            ASIGNAR TÉCNICOS             ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
 
     Console.Write("Ingrese ID del técnico: ");
     int buscar = int.Parse(Console.ReadLine()!);
@@ -708,7 +777,18 @@ void AsignarTecnico()
 
 void LiberarTecnico()
 {
+
     Console.Clear();
+
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("            LIBERAR TÉCNICOS             ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
 
     Console.Write("Ingrese ID del técnico: ");
     int buscar = int.Parse(Console.ReadLine()!);
@@ -756,7 +836,9 @@ void ReporteGeneral()
             cerradas++;
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== REPORTE GENERAL =====");
+    Console.ResetColor();
     Console.WriteLine($"Total incidencias: {cantidad}");
     Console.WriteLine($"Abiertas: {abiertas}");
     Console.WriteLine($"En proceso: {proceso}");
@@ -800,7 +882,9 @@ void IncidenciasPorCategoria()
         }
     }
 
+    Console.ForegroundColor=ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR CATEGORÍA =====");
+    Console.ResetColor();
     Console.WriteLine($"Hardware: {hardware}");
     Console.WriteLine($"Software: {software}");
     Console.WriteLine($"Red: {red}");
@@ -840,7 +924,9 @@ void IncidenciasPorPrioridad()
         }
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR PRIORIDAD =====");
+    Console.ResetColor();
     Console.WriteLine($"Baja: {baja}");
     Console.WriteLine($"Media: {media}");
     Console.WriteLine($"Alta: {alta}");
@@ -930,6 +1016,7 @@ void IncidenciasPorEdificio()
         }
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR EDIFICIO =====");
     Console.WriteLine($"Edificio A: {A}");
     Console.WriteLine($"Edificio B: {B}");
@@ -982,7 +1069,9 @@ void IncidenciasPorPiso()
         }
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR PISO =====");
+    Console.ResetColor();
     Console.WriteLine($"Piso 1: {piso1}");
     Console.WriteLine($"Piso 2: {piso2}");
     Console.WriteLine($"Piso 3: {piso3}");
@@ -1009,7 +1098,9 @@ void TecnicoMasOcupado()
             mayor = i;
     }
 
+    Console.ForegroundColor= ConsoleColor.DarkYellow;
     Console.WriteLine("===== TÉCNICO MÁS OCUPADO =====");
+    Console.ResetColor();
     Console.WriteLine($"Nombre: {tecnicos[mayor].nombre}");
     Console.WriteLine($"Casos: {tecnicos[mayor].casos}");
 
@@ -1034,7 +1125,9 @@ void TecnicoMenosOcupado()
             menor = i;
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== TÉCNICO MENOS OCUPADO =====");
+    Console.ResetColor();
     Console.WriteLine($"Nombre: {tecnicos[menor].nombre}");
     Console.WriteLine($"Casos: {tecnicos[menor].casos}");
 
@@ -1071,7 +1164,9 @@ void AulaConMasReportes()
         }
     }
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== AULA CON MÁS REPORTES =====");
+    Console.ResetColor();
     Console.WriteLine($"Aula: {aulaMayor}");
     Console.WriteLine($"Cantidad de incidencias: {maximo}");
 
@@ -1094,7 +1189,7 @@ void HistorialMensual()
         }
     }
 
-    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== HISTORIAL MENSUAL =====");
     Console.ResetColor();
     
@@ -1120,7 +1215,7 @@ void ComparacionEntreMeses()
             meses[mes - 1]++;
         }
     }
-    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
     Console.ResetColor();
 
@@ -1159,8 +1254,9 @@ void GuardarIncidencias()
     }
 
     archivo.Close();
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("Incidencias guardadas correctamente.");
+    Console.ResetColor();
 }
 
 void CargarIncidencias()
@@ -1174,7 +1270,7 @@ void CargarIncidencias()
 
     StreamReader archivo = new StreamReader("incidencias.csv");
 
-    archivo.ReadLine(); // Salta encabezado
+    archivo.ReadLine();
 
     cantidad = 0;
 
@@ -1198,8 +1294,9 @@ void CargarIncidencias()
     }
 
     archivo.Close();
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("Incidencias cargadas correctamente.");
+    Console.ResetColor();
 }
 
 void GuardarTecnicos()
@@ -1219,8 +1316,9 @@ void GuardarTecnicos()
     }
 
     archivo.Close();
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("Técnicos guardados correctamente.");
+    Console.ResetColor();
     Console.ReadKey();
 }
 
@@ -1254,8 +1352,9 @@ void CargarTecnicos()
     }
 
     archivo.Close();
-
+    Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.WriteLine("Técnicos cargados correctamente.");
+    Console.ResetColor();
     Console.ReadKey();
 }
 
