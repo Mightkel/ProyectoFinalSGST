@@ -454,11 +454,44 @@ void ModificarIncidencia()
     {
         if (incidencias[i].Codigo == buscar)
         {
-            Console.Write("Nuevo estado: ");
-            incidencias[i].Estado = Console.ReadLine()!;
+            switch (EstadoIncidencia())
+            {
+                case 1:
+                    incidencias[cantidad].Estado = "Abierta";
+                    break;
+                case 2:
+                    incidencias[cantidad].Estado = "En proceso";
+                    break;
+                case 3:
+                    incidencias[cantidad].Estado = "Cerrada";
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
+                    incidencias[cantidad].Estado = "Abierta";
+                    Console.ReadKey();
+                    break;
+            }
 
-            Console.Write("Nueva prioridad: ");
-            incidencias[i].Prioridad = Console.ReadLine()!;
+            switch (PrioridadIncidencia())
+            {
+                case 1:
+                    incidencias[cantidad].Prioridad = "Baja";
+                    break;
+                case 2:
+                    incidencias[cantidad].Prioridad = "Media";
+                    break;
+                case 3:
+                    incidencias[cantidad].Prioridad = "Alta";
+                    break;
+                case 4:
+                    incidencias[cantidad].Prioridad = "Crítica";
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
+                    incidencias[cantidad].Prioridad = "Baja";
+                    Console.ReadKey();
+                    break;
+            }
 
             Console.Write("Nueva descripcion: ");
             incidencias[i].Descripcion = Console.ReadLine()!;
