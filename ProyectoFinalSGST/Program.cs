@@ -1,4 +1,6 @@
-﻿Incidencia[] incidencias = new Incidencia[100];
+﻿using System.IO;
+
+Incidencia[] incidencias = new Incidencia[100];
 int cantidad = 0;
 
 Tecnico[] tecnicos = new Tecnico[50];
@@ -1092,6 +1094,128 @@ void ComparacionEntreMeses()
     Console.ReadKey();
 }
 
+void GuardarIncidencias()
+{
+    StreamWriter archivo = new StreamWriter("incidencias.csv");
+
+    archivo.WriteLine("Codigo,Reportante,TipoUsuario,Aula,Categoria,Descripcion,Fecha,Prioridad,Estado");
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        archivo.WriteLine(
+            incidencias[i].Codigo + "," +
+            incidencias[i].Reportante + "," +
+            incidencias[i].TipoUsuario + "," +
+            incidencias[i].Aula + "," +
+            incidencias[i].Categoria + "," +
+            incidencias[i].Descripcion + "," +
+            incidencias[i].Fecha + "," +
+            incidencias[i].Prioridad + "," +
+            incidencias[i].Estado
+        );
+    }
+
+    archivo.Close();
+
+    Console.WriteLine("Incidencias guardadas correctamente.");
+}
+
+void CargarIncidencias()
+{
+    if (!File.Exists("incidencias.csv"))
+    {
+        Console.WriteLine("No existe el archivo.");
+        Console.ReadKey();
+        return;
+    }
+
+    StreamReader archivo = new StreamReader("incidencias.csv");
+
+    archivo.ReadLine(); // Salta encabezado
+
+    cantidad = 0;
+
+    while (!archivo.EndOfStream)
+    {
+        string linea = archivo.ReadLine()!;
+
+        string[] datos = linea.Split(',');
+
+        incidencias[cantidad].Codigo = datos[0];
+        incidencias[cantidad].Reportante = datos[1];
+        incidencias[cantidad].TipoUsuario = datos[2];
+        incidencias[cantidad].Aula = datos[3];
+        incidencias[cantidad].Categoria = datos[4];
+        incidencias[cantidad].Descripcion = datos[5];
+        incidencias[cantidad].Fecha = datos[6];
+        incidencias[cantidad].Prioridad = datos[7];
+        incidencias[cantidad].Estado = datos[8];
+
+        cantidad++;
+    }
+
+    archivo.Close();
+
+    Console.WriteLine("Incidencias cargadas correctamente.");
+}
+
+void GuardarTecnicos()
+{
+    StreamWriter archivo = new StreamWriter("tecnicos.csv");
+
+    archivo.WriteLine("Id,Nombre,Especialidad,CasosAsignados");
+
+    for (int i = 0; i < cantidadTecnicos; i++)
+    {
+        archivo.WriteLine(
+            tecnicos[i].id + "," +
+            tecnicos[i].nombre + "," +
+            tecnicos[i].especialidad + "," +
+            tecnicos[i].casos
+        );
+    }
+
+    archivo.Close();
+
+    Console.WriteLine("Técnicos guardados correctamente.");
+    Console.ReadKey();
+}
+
+void CargarTecnicos()
+{
+    if (!File.Exists("tecnicos.csv"))
+    {
+        Console.WriteLine("No existe el archivo.");
+        Console.ReadKey();
+        return;
+    }
+
+    StreamReader archivo = new StreamReader("tecnicos.csv");
+
+    archivo.ReadLine();
+
+    cantidadTecnicos = 0;
+
+    while (!archivo.EndOfStream)
+    {
+        string linea = archivo.ReadLine()!;
+
+        string[] datos = linea.Split(',');
+
+        tecnicos[cantidadTecnicos].id = int.Parse(datos[0]);
+        tecnicos[cantidadTecnicos].nombre = datos[1];
+        tecnicos[cantidadTecnicos].especialidad = datos[2];
+        tecnicos[cantidadTecnicos].casos = int.Parse(datos[3]);
+
+        cantidadTecnicos++;
+    }
+
+    archivo.Close();
+
+    Console.WriteLine("Técnicos cargados correctamente.");
+    Console.ReadKey();
+}
+
 void Main()
 {
     Console.Clear();
@@ -1215,8 +1339,12 @@ void Main()
                 } while (opcionReportes != 0);
                 break;
             case 4:
+                GuardarIncidencias();
+                GuardarTecnicos();
                 break;
             case 5:
+                CargarIncidencias();
+                CargarTecnicos();
                 break;
             case 0:
                 Console.ForegroundColor = ConsoleColor.DarkRed;
