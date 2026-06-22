@@ -72,7 +72,7 @@ int MenuTecnicos()
     Console.WriteLine("1. Registrar técnico");
     Console.WriteLine("2. Mostrar técnicos");
     Console.WriteLine("3. Asignar técnico");
-    Console.WriteLine("4. Reasignar técnico");
+    Console.WriteLine("4. Liberar técnico");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -663,7 +663,7 @@ void AsignarTecnico()
     Console.ReadKey();
 }
 
-void ReasignarTecnico()
+void LiberarTecnico()
 {
     Console.Clear();
 
@@ -1092,7 +1092,7 @@ void Main()
                             AsignarTecnico();
                             break;
                         case 4:
-                            ReasignarTecnico();
+                            LiberarTecnico();
                             break;
                         case 0:
                             Console.WriteLine("Regresando al menú principal...");
