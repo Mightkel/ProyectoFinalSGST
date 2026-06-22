@@ -66,10 +66,14 @@ int MenuReportes()
     Console.WriteLine("6. Técnico mas ocupado");
     Console.WriteLine("7. Técnico menos ocupado");
     Console.WriteLine("8. Aula con mas reportes");
+    Console.WriteLine("9. Historial mensual");
+    Console.WriteLine("10. Comparacion entre meses");
     Console.WriteLine("0. Regresar");
+
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
+
     return int.Parse(Console.ReadLine()!);
 }
 
@@ -374,28 +378,64 @@ void AsignarTecnico()
 void ReasignarTecnico()
 {
     Console.Clear();
+    Console.WriteLine("Función en desarrollo.");
+    Console.ReadKey();
+}
 
-    Console.Write("Ingrese ID del técnico: ");
-    int buscar = int.Parse(Console.ReadLine()!);
+void HistorialMensual()
+{
+    Console.Clear();
 
-    bool encontrado = false;
+    int[] meses = new int[12];
 
-    for (int i = 0; i < cantidadTecnicos; i++)
+    for (int i = 0; i < cantidad; i++)
     {
-        if (tecnicos[i].id == buscar)
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 3)
         {
-            tecnicos[i].disponible = true;
-
-            Console.WriteLine("\nTécnico liberado.");
-
-            encontrado = true;
-            break;
+            int mes = int.Parse(fecha[1]);
+            meses[mes - 1]++;
         }
     }
 
-    if (!encontrado)
+    Console.WriteLine("===== HISTORIAL MENSUAL =====");
+
+    for (int i = 0; i < 12; i++)
     {
-        Console.WriteLine("Técnico no encontrado.");
+        Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
+    }
+
+    Console.ReadKey();
+}
+
+void CompararMeses()
+{
+    Console.Clear();
+
+    int[] meses = new int[12];
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 3)
+        {
+            int mes = int.Parse(fecha[1]);
+            meses[mes - 1]++;
+        }
+    }
+
+    Console.WriteLine("===== COMPARACION ENTRE MESES =====");
+
+    for (int i = 1; i < 12; i++)
+    {
+        int diferencia = meses[i] - meses[i - 1];
+
+        Console.WriteLine(
+            "Mes " + i +
+            " -> Mes " + (i + 1) +
+            " = " + diferencia + " incidencias");
     }
 
     Console.ReadKey();
@@ -470,10 +510,39 @@ void Main()
                 break;
             case 3:
                 int opcionReportes;
+
                 do
                 {
                     opcionReportes = MenuReportes();
+
+                    switch (opcionReportes)
+                    {
+                        case 1:
+                            Console.Clear();
+                            Console.WriteLine("Total de incidencias registradas: " + cantidad);
+                            Console.ReadKey();
+                            break;
+
+                        case 9:
+                            HistorialMensual();
+                            break;
+
+                        case 10:
+                            CompararMeses();
+                            break;
+
+                        case 0:
+                            Console.WriteLine("Regresando al menú principal...");
+                            break;
+
+                        default:
+                            Console.WriteLine("Reporte en desarrollo.");
+                            Console.ReadKey();
+                            break;
+                    }
+
                 } while (opcionReportes != 0);
+
                 break;
             case 4:
                 break;
