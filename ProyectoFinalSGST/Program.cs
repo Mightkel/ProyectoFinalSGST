@@ -241,7 +241,7 @@ string LeerFecha()
             return fecha;
         }
 
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Fecha inválida. Use el formato dd/MM/yyyy.");
         Console.ResetColor();
 
@@ -400,7 +400,9 @@ void RegistrarIncidencia()
  
     cantidad++;
 
+    Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.WriteLine("\nIncidencia registrada correctamente.");
+    Console.ResetColor();
     Console.ReadKey();
 }
 
@@ -417,6 +419,7 @@ void BuscarIncidencia()
     {
         if (incidencias[i].Codigo == buscar)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nCodigo: " + incidencias[i].Codigo);
             Console.WriteLine("Reportante: " + incidencias[i].Reportante);
             Console.WriteLine("Tipo Usuario: " + incidencias[i].TipoUsuario);
@@ -426,6 +429,7 @@ void BuscarIncidencia()
             Console.WriteLine("Fecha: " + incidencias[i].Fecha);
             Console.WriteLine("Prioridad: " + incidencias[i].Prioridad);
             Console.WriteLine("Estado: " + incidencias[i].Estado);
+            Console.ResetColor();
 
             encontrado = true;
             break;
@@ -434,7 +438,9 @@ void BuscarIncidencia()
 
     if (!encontrado)
     {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Incidencia no encontrada.");
+        Console.ResetColor();
     }
 
     Console.ReadKey();
@@ -445,8 +451,10 @@ void ModificarIncidencia()
 {
     Console.Clear();
 
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Codigo a modificar: ");
     string buscar = Console.ReadLine()!;
+    Console.ResetColor();
 
     bool encontrado = false;
 
@@ -496,7 +504,9 @@ void ModificarIncidencia()
             Console.Write("Nueva descripcion: ");
             incidencias[i].Descripcion = Console.ReadLine()!;
 
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("\nIncidencia modificada.");
+            Console.ResetColor();
 
             encontrado = true;
             break;
