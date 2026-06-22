@@ -104,6 +104,8 @@ int MenuReportes()
     Console.WriteLine("6. Técnico mas ocupado");
     Console.WriteLine("7. Técnico menos ocupado");
     Console.WriteLine("8. Aula con mas reportes");
+    Console.WriteLine("9. Historial mensual");
+    Console.WriteLine("10. Comparación entre meses");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -179,19 +181,19 @@ int TipoUsuario()
 
 int AulaIncidencia()
 {
-    Console.Write("Aula (Ejemplo: A-101): ");
+    Console.Write("Aula (Ejemplo: A101): ");
     string aula = Console.ReadLine()!;
-    if (aula.Length == 4 && char.IsLetter(aula[0]) && char.IsPunctuation(aula[1]) && char.IsDigit(aula[2]) && char.IsDigit(aula[3]) && char.IsDigit(aula[4]))
+    if (aula.Length == 4 && char.IsLetter(aula[0]) && char.IsDigit(aula[1]) && char.IsDigit(aula[2]) && char.IsDigit(aula[3]))
     {
-        return 1; // Aula válida
+        incidencias[cantidad].Aula = aula;
+        return 1;
     }
     else
     {
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Entrada no válida. El formato del aula debe ser una letra seguida de tres dígitos (Ejemplo: A101).");
         Console.ResetColor();
-        Console.ReadKey();
-        return -1; // Aula no válida
+        return -1;
     }
 }
 
@@ -316,16 +318,13 @@ void RegistrarIncidencia()
             break;
     }
 
-    switch (AulaIncidencia())
+    while (true)
     {
-        case 1:
-            incidencias[cantidad].Aula = Console.ReadLine()!;
+        int aulaResultado = AulaIncidencia();
+        if (aulaResultado == 1)
+        {
             break;
-        default:
-            Console.WriteLine("Aula no válida. Se asignará 'Desconocida' por defecto.");
-            incidencias[cantidad].Aula = "Desconocida";
-            Console.ReadKey();
-            break;
+        }
     }
 
     switch (CategoriaIncidencia())
@@ -355,7 +354,6 @@ void RegistrarIncidencia()
     Console.Write("Descripcion: ");
     incidencias[cantidad].Descripcion = Console.ReadLine()!;
 
-    LeerFecha();
     incidencias[cantidad].Fecha = LeerFecha();
 
     switch(PrioridadIncidencia())
@@ -918,7 +916,7 @@ void IncidenciasPorPiso()
 
     for (int i = 0; i < cantidad; i++)
     {
-        int piso = int.Parse(incidencias[i].Aula[2].ToString());
+        int piso = int.Parse(incidencias[i].Aula[1].ToString());
 
         switch (piso)
         {
@@ -1035,6 +1033,65 @@ void AulaConMasReportes()
     Console.ReadKey();
 }
 
+void HistorialMensual()
+{
+    Console.Clear();
+
+    int[] meses = new int[12];
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 3)
+        {
+            int mes = int.Parse(fecha[1]);
+            meses[mes - 1]++;
+        }
+    }
+
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("===== HISTORIAL MENSUAL =====");
+    Console.ResetColor();
+    
+    for (int i = 0; i < 12; i++)
+    {
+        Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
+    }
+
+    Console.ReadKey();
+}
+
+void ComparacionEntreMeses()
+{
+    Console.Clear();
+
+    int[] meses = new int[12];
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+        if (fecha.Length == 3)
+        {
+            int mes = int.Parse(fecha[1]);
+            meses[mes - 1]++;
+        }
+    }
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
+    Console.ResetColor();
+
+    for (int i = 1; i < 12; i++)
+    {
+        int diferencia = meses[i] - meses[i - 1];
+
+        Console.WriteLine(
+            "Mes " + i +
+            " -> Mes " + (i + 1) +
+            " = " + diferencia + " incidencias");
+    }
+
+    Console.ReadKey();
+}
+
 void Main()
 {
     Console.Clear();
@@ -1140,6 +1197,12 @@ void Main()
 
                         case 8:
                             AulaConMasReportes();
+                            break;
+                        case 9:
+                            HistorialMensual();
+                            break;
+                        case 10:
+                            ComparacionEntreMeses();
                             break;
                         case 0:
                             Console.WriteLine("Regresando al menú principal...");
