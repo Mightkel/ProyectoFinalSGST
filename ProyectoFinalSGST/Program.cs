@@ -671,6 +671,16 @@ void MostrarIncidencias()
 {
     Console.Clear();
 
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("          MOSTRAR INCIDENCIAS            ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
     if (cantidad == 0)
     {
         Console.WriteLine("No hay incidencias registradas.");
@@ -719,26 +729,33 @@ void RegistrarTecnico()
     Console.WriteLine("=========================================");
     Console.ResetColor();
 
-    Console.Write("ID: ");
-    string Id = Console.ReadLine()!;
-
-    bool encontrado = false;
-
-    for (int i = 0; i < cantidadTecnicos; i++)
+   
+    string Id;
+    bool encontrado;
+    do
     {
-        if (tecnicos[i].id.ToUpper() == Id.ToUpper())
+        int fila = Console.CursorTop;
+        encontrado = false;
+
+        Console.Write("ID: ");
+        Id = Console.ReadLine()!;
+
+        for (int i = 0; i < cantidadTecnicos; i++)
         {
-            encontrado = true;
-            break;
-        }
-    }
+            if (tecnicos[i].id.ToUpper() == Id.ToUpper())
+            {
+                encontrado = true;
+                MostrarError("ID ya registrado.");
 
-    if (encontrado)
-    {
-        Console.WriteLine("ID ya registrado.");
-        Console.ReadKey(true);
-        return;
-    }
+                Console.SetCursorPosition(0, fila);
+                Console.Write(new string(' ', Console.WindowWidth));
+
+                Console.SetCursorPosition(0, fila);
+                
+                break;
+            }
+        }
+    } while (encontrado);
 
     tecnicos[cantidadTecnicos].id = Id;
 
