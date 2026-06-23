@@ -25,6 +25,32 @@
     Console.ReadKey();
 }
 
+string LeerFecha()
+{
+    string fecha;
+
+    do
+    {
+        Console.Write("Fecha (MM/yyyy): ");
+        fecha = Console.ReadLine()!;
+
+        if (DateTime.TryParseExact(
+            fecha,
+            "MM/yyyy",
+            null,
+            System.Globalization.DateTimeStyles.None,
+            out _))
+        {
+            return fecha;
+        }
+
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Fecha inválida. Use el formato MM/yyyy.");
+        Console.ResetColor();
+
+    } while (true);
+}
+
 void IncidenciasPorCategoria()
 {
     int hardware = 0;
