@@ -77,6 +77,7 @@ int MenuTecnicos()
     Console.WriteLine("2. Mostrar técnicos");
     Console.WriteLine("3. Asignar técnico");
     Console.WriteLine("4. Liberar técnico");
+    Console.WriteLine("5. Eliminar técnico");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -899,6 +900,58 @@ void LiberarTecnico()
     Console.ReadKey(true);
 }
 
+void EliminarTecnico()
+{
+    Console.Clear();
+
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("            ELIMINAR TÉCNICOS            ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
+    Console.Write("Ingrese ID del técnico: ");
+
+    Console.Write("Ingrese ID del técnico: ");
+    string buscar = Console.ReadLine()!;
+
+    bool encontrado = false;
+
+    for (int i = 0; i < cantidadTecnicos; i++)
+    {
+        if (tecnicos[i].id == buscar)
+        {
+            for (int j = i; j < cantidadTecnicos - 1; j++)
+            {
+                tecnicos[j].id = tecnicos[j + 1].id;
+                tecnicos[j].nombre = tecnicos[j + 1].nombre;
+                tecnicos[j].especialidad = tecnicos[j + 1].especialidad;
+                tecnicos[j].disponible = tecnicos[j + 1].disponible;
+                tecnicos[j].casos = tecnicos[j + 1].casos;
+            }
+
+            cantidadTecnicos--;
+
+            Console.WriteLine("\n Técnico eliminado correctamente.");
+
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        Console.WriteLine("Técnico no encontrado.");
+    }
+
+    Console.ReadKey(true);
+
+}
+
 //Reportes Y Estadísticas
 void ReporteGeneral()
 {
@@ -1503,6 +1556,9 @@ void Main()
                             break;
                         case 4:
                             LiberarTecnico();
+                            break;
+                        case 5:
+                            EliminarTecnico();
                             break;
                         case 0:
                             Console.WriteLine("Regresando al menú principal...");
