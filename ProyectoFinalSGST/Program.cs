@@ -359,7 +359,8 @@ void HistorialMensual()
 {
     Console.Clear();
 
-    int[] meses = new int[12];
+    Dictionary<int, int[]> historial = new Dictionary<int, int[]>();
+
     for (int i = 0; i < cantidad; i++)
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
@@ -367,7 +368,14 @@ void HistorialMensual()
         if (fecha.Length == 2)
         {
             int mes = int.Parse(fecha[0]);
-            meses[mes - 1]++;
+            int anio = int.Parse(fecha[1]);
+
+            if (!historial.ContainsKey(anio))
+            {
+                historial[anio] = new int[12];
+            }
+
+            historial[anio][mes - 1]++;
         }
     }
 
@@ -375,9 +383,15 @@ void HistorialMensual()
     Console.WriteLine("===== HISTORIAL MENSUAL =====");
     Console.ResetColor();
 
-    for (int i = 0; i < 12; i++)
+    foreach (var anio in historial.OrderBy(a => a.Key))
     {
-        Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
+        Console.WriteLine("\nAño " + anio.Key);
+
+        for (int i = 0; i < 12; i++)
+        {
+            Console.WriteLine(
+                "Mes " + (i + 1) + ": " + anio.Value[i] + " incidencias");
+        }
     }
 
     Console.ReadKey(true);
@@ -387,28 +401,48 @@ void ComparacionEntreMeses()
 {
     Console.Clear();
 
-    int[] meses = new int[12];
+    Dictionary<string, int> meses = new Dictionary<string, int>();
+
     for (int i = 0; i < cantidad; i++)
     {
-        string[] fecha = incidencias[i].Fecha.Split('/');
-        if (fecha.Length == 2)
+        string fecha = incidencias[i].Fecha;
+
+        if (meses.ContainsKey(fecha))
         {
-            int mes = int.Parse(fecha[0]);
-            meses[mes - 1]++;
+            meses[fecha]++;
+        }
+        else
+        {
+            meses[fecha] = 1;
         }
     }
+
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
     Console.ResetColor();
 
-    for (int i = 1; i < 12; i++)
+
+    string[] listaMeses = meses.Keys
+        .OrderBy(f => DateTime.ParseExact(
+            f,
+            "MM/yyyy",
+            null))
+        .ToArray();
+
+
+    for (int i = 1; i < listaMeses.Length; i++)
     {
-        int diferencia = meses[i] - meses[i - 1];
+        int diferencia =
+            meses[listaMeses[i]] -
+            meses[listaMeses[i - 1]];
 
         Console.WriteLine(
-            "Mes " + i +
-            " -> Mes " + (i + 1) +
-            " = " + diferencia + " incidencias");
+            listaMeses[i - 1] +
+            " -> " +
+            listaMeses[i] +
+            " = " +
+            diferencia +
+            " incidencias");
     }
 
     Console.ReadKey(true);
