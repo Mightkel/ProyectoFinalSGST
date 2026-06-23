@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 Incidencia[] incidencias = new Incidencia[100];
 int cantidad = 0;
@@ -111,6 +112,8 @@ int MenuReportes()
     Console.WriteLine("8. Aula con mas reportes");
     Console.WriteLine("9. Historial mensual");
     Console.WriteLine("10. Comparación entre meses");
+    Console.WriteLine("11. Historial Anual");
+    Console.WriteLine("12. Comparación Anual");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -915,8 +918,6 @@ void EliminarTecnico()
     Console.ResetColor();
 
     Console.Write("Ingrese ID del técnico: ");
-
-    Console.Write("Ingrese ID del técnico: ");
     string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
@@ -1369,6 +1370,92 @@ void ComparacionEntreMeses()
     Console.ReadKey(true);
 }
 
+void HistorialAnual()
+{
+    Console.Clear();
+    Dictionary<int, int> anios = new Dictionary<int, int>();
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+        if (fecha.Length == 2)
+        {
+            int anio = int.Parse(fecha[1]);
+            if (anios.ContainsKey(anio))
+                anios[anio]++;
+            else
+                anios[anio] = 1;
+        }
+    }
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== HISTORIAL ANUAL =====");
+    Console.ResetColor();
+    foreach (var anio in anios.OrderBy(a => a.Key))
+    {
+        Console.WriteLine("Año " + anio.Key + ": " + anio.Value + " incidencias");
+    }
+    Console.ReadKey(true);
+}
+
+void ComparacionAnual()
+{
+    Console.Clear();
+
+    Dictionary<int, int> anios = new Dictionary<int, int>();
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 2)
+        {
+            int anio = int.Parse(fecha[1]);
+
+            if (anios.ContainsKey(anio))
+            {
+                anios[anio]++;
+            }
+            else
+            {
+                anios[anio] = 1;
+            }
+
+        }
+    }
+
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== COMPARACIÓN ENTRE AÑOS =====");
+    Console.ResetColor();
+
+    int[] listaAnios = anios.Keys.OrderBy(a => a).ToArray();
+
+    if (listaAnios.Length < 2)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("No hay suficientes años para comparar.");
+        Console.ResetColor();
+        Console.ReadKey(true);
+        return;
+    }
+
+    for (int i = 1; i < listaAnios.Length; i++)
+    {
+        int anioAnterior = listaAnios[i - 1];
+        int anioActual = listaAnios[i];
+
+        int diferencia =
+            anios[anioActual] -
+            anios[anioAnterior];
+
+        Console.WriteLine(
+            "Año " + anioAnterior +
+            " -> Año " + anioActual +
+            " = " + diferencia + " incidencias");
+    }
+
+    Console.ReadKey(true);
+}
+
+//Guardar y Cargar Archivos
 void GuardarIncidencias()
 {
     StreamWriter archivo = new StreamWriter("incidencias.csv");
@@ -1615,6 +1702,12 @@ void Main()
                             break;
                         case 10:
                             ComparacionEntreMeses();
+                            break;
+                        case 11:
+                            HistorialAnual();
+                            break;
+                        case 12:
+                            ComparacionAnual();
                             break;
                         case 0:
                             Console.WriteLine("Regresando al menú principal...");
