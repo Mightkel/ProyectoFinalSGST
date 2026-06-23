@@ -1,4 +1,5 @@
-﻿void ReporteGeneral()
+﻿using System.Linq;
+void ReporteGeneral()
 {
     int abiertas = 0;
     int proceso = 0;
@@ -352,4 +353,148 @@ void AulaConMasReportes()
     Console.WriteLine($"Cantidad de incidencias: {maximo}");
 
     Console.ReadKey();
+}
+
+void HistorialMensual()
+{
+    Console.Clear();
+
+    int[] meses = new int[12];
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 2)
+        {
+            int mes = int.Parse(fecha[0]);
+            meses[mes - 1]++;
+        }
+    }
+
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== HISTORIAL MENSUAL =====");
+    Console.ResetColor();
+
+    for (int i = 0; i < 12; i++)
+    {
+        Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
+    }
+
+    Console.ReadKey(true);
+}
+
+void ComparacionEntreMeses()
+{
+    Console.Clear();
+
+    int[] meses = new int[12];
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+        if (fecha.Length == 2)
+        {
+            int mes = int.Parse(fecha[0]);
+            meses[mes - 1]++;
+        }
+    }
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
+    Console.ResetColor();
+
+    for (int i = 1; i < 12; i++)
+    {
+        int diferencia = meses[i] - meses[i - 1];
+
+        Console.WriteLine(
+            "Mes " + i +
+            " -> Mes " + (i + 1) +
+            " = " + diferencia + " incidencias");
+    }
+
+    Console.ReadKey(true);
+}
+
+void HistorialAnual()
+{
+    Console.Clear();
+    Dictionary<int, int> anios = new Dictionary<int, int>();
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+        if (fecha.Length == 2)
+        {
+            int anio = int.Parse(fecha[1]);
+            if (anios.ContainsKey(anio))
+                anios[anio]++;
+            else
+                anios[anio] = 1;
+        }
+    }
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== HISTORIAL ANUAL =====");
+    Console.ResetColor();
+    foreach (var anio in anios.OrderBy(a => a.Key))
+    {
+        Console.WriteLine("Año " + anio.Key + ": " + anio.Value + " incidencias");
+    }
+    Console.ReadKey(true);
+}
+
+void ComparacionAnual();
+{
+    Console.Clear();
+
+    Dictionary<int, int> anios = new Dictionary<int, int>();
+
+    for (int i = 0; i < cantidad; i++)
+    {
+        string[] fecha = incidencias[i].Fecha.Split('/');
+
+        if (fecha.Length == 2)
+        {
+            int anio = int.Parse(fecha[1]);
+
+            if (anios.ContainsKey(anio))
+            {
+                anios[anio]++;
+            }
+            else
+            {
+                anios[anio] = 1;
+            }
+
+        }
+    }
+
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
+    Console.WriteLine("===== COMPARACIÓN ENTRE AÑOS =====");
+    Console.ResetColor();
+
+    if (listaAnios.Length < 2)
+    {
+        Console.ForegroundColor= ConsoleColor.DarkGray;
+        Console.WriteLine("No hay suficientes años para comparar.");
+        Console.ResetColor();
+        Console.ReadKey(true);
+        return;
+    }
+
+    int[] listaAnios = anios.Keys.OrderBy(a => a).ToArray();
+
+    for (int i = 1; i < listaAnios.Length; i++)
+    {
+        int anioAnterior = listaAnios[i - 1];
+        int anioActual = listaAnios[i];
+
+        int diferencia =
+            anios[anioActual] -
+            anios[anioAnterior];
+
+        Console.WriteLine(
+            "Año " + anioAnterior +
+            " -> Año " + anioActual +
+            " = " + diferencia + " incidencias");
+    }
+
+    Console.ReadKey(true);
 }
