@@ -47,6 +47,7 @@ int MenuTecnicos()
     Console.WriteLine("2. Mostrar técnicos");
     Console.WriteLine("3. Asignar técnico");
     Console.WriteLine("4. Reasignar técnico");
+    Console.WriteLine("5. Eliminar técnico");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -101,8 +102,13 @@ void RegistrarIncidencia()
     Console.Write("Descripcion: ");
     incidencias[cantidad].Descripcion = Console.ReadLine()!;
 
-    Console.Write("Fecha: ");
-    incidencias[cantidad].Fecha = Console.ReadLine()!;
+    Console.Write("Mes (1-12): ");
+    string mes = Console.ReadLine()!;
+
+    Console.Write("Año: ");
+    string anio = Console.ReadLine()!;
+
+    incidencias[cantidad].Fecha = mes + "/" + anio;
 
     Console.Write("Prioridad: ");
     incidencias[cantidad].Prioridad = Console.ReadLine()!;
@@ -381,6 +387,39 @@ void ReasignarTecnico()
     Console.WriteLine("Función en desarrollo.");
     Console.ReadKey();
 }
+void EliminarTecnico()
+{
+    Console.Clear();
+
+    Console.Write("ID del técnico a eliminar: ");
+    int buscar = int.Parse(Console.ReadLine()!);
+
+    bool encontrado = false;
+
+    for (int i = 0; i < cantidadTecnicos; i++)
+    {
+        if (tecnicos[i].id == buscar)
+        {
+            for (int j = i; j < cantidadTecnicos - 1; j++)
+            {
+                tecnicos[j] = tecnicos[j + 1];
+            }
+
+            cantidadTecnicos--;
+
+            Console.WriteLine("\nTécnico eliminado correctamente.");
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        Console.WriteLine("\nTécnico no encontrado.");
+    }
+
+    Console.ReadKey();
+}
 
 void HistorialMensual()
 {
@@ -392,9 +431,9 @@ void HistorialMensual()
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
 
-        if (fecha.Length == 3)
+        if (fecha.Length == 2)
         {
-            int mes = int.Parse(fecha[1]);
+            int mes = int.Parse(fecha[0]);
             meses[mes - 1]++;
         }
     }
@@ -419,9 +458,10 @@ void CompararMeses()
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
 
-        if (fecha.Length == 3)
+        if (fecha.Length == 2)
+
         {
-            int mes = int.Parse(fecha[1]);
+            int mes = int.Parse(fecha[0]);
             meses[mes - 1]++;
         }
     }
@@ -499,6 +539,10 @@ void Main()
                         case 4:
                             ReasignarTecnico();
                             break;
+                        case 5:
+                            EliminarTecnico();
+                            break;
+                           
                         case 0:
                             Console.WriteLine("Regresando al menú principal...");
                             break;
