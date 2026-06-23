@@ -242,12 +242,12 @@ string LeerFecha()
 
     do
     {
-        Console.Write("Fecha (dd/MM/yyyy): ");
+        Console.Write("Fecha (MM/yyyy): ");
         fecha = Console.ReadLine()!;
 
         if (DateTime.TryParseExact(
             fecha,
-            "dd/MM/yyyy",
+            "MM/yyyy",
             null,
             System.Globalization.DateTimeStyles.None,
             out _))
@@ -256,7 +256,7 @@ string LeerFecha()
         }
 
         Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Fecha inválida. Use el formato dd/MM/yyyy.");
+        Console.WriteLine("Fecha inválida. Use el formato MM/yyyy.");
         Console.ResetColor();
 
     } while (true);
@@ -1319,9 +1319,9 @@ void HistorialMensual()
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
 
-        if (fecha.Length == 3)
+        if (fecha.Length == 2)
         {
-            int mes = int.Parse(fecha[1]);
+            int mes = int.Parse(fecha[0]);
             meses[mes - 1]++;
         }
     }
@@ -1346,9 +1346,9 @@ void ComparacionEntreMeses()
     for (int i = 0; i < cantidad; i++)
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
-        if (fecha.Length == 3)
+        if (fecha.Length == 2)
         {
-            int mes = int.Parse(fecha[1]);
+            int mes = int.Parse(fecha[0]);
             meses[mes - 1]++;
         }
     }
