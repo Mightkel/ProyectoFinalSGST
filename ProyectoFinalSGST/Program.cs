@@ -23,7 +23,7 @@ int MainMenu()
     Console.WriteLine("5. Cargar información");
     Console.WriteLine("0. Salir");
     Console.ResetColor();
-    Console.ForegroundColor= ConsoleColor.DarkGreen;
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.Write("Digite su opción: ");
     Console.ResetColor();
     try
@@ -333,7 +333,7 @@ void RegistrarIncidencia()
             incidencias[cantidad].TipoUsuario = "Otro";
             break;
         default:
-            Console.ForegroundColor= ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
             Console.ResetColor();
             incidencias[cantidad].TipoUsuario = "Otro";
@@ -381,7 +381,7 @@ void RegistrarIncidencia()
 
     incidencias[cantidad].Fecha = LeerFecha();
 
-    switch(PrioridadIncidencia())
+    switch (PrioridadIncidencia())
     {
         case 1:
             incidencias[cantidad].Prioridad = "Baja";
@@ -424,10 +424,10 @@ void RegistrarIncidencia()
             Console.ReadKey(true);
             break;
     }
- 
+
     cantidad++;
 
-    Console.ForegroundColor= ConsoleColor.DarkGreen;
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("\nIncidencia registrada correctamente.");
     Console.ResetColor();
     Console.ReadKey(true);
@@ -693,7 +693,7 @@ void MostrarIncidencias()
     {
         for (int i = 0; i < cantidad; i++)
         {
-            Console.ForegroundColor= ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n===========================");
             Console.ResetColor();
             Console.WriteLine("Codigo: " + incidencias[i].Codigo);
@@ -733,7 +733,7 @@ void RegistrarTecnico()
     Console.WriteLine("=========================================");
     Console.ResetColor();
 
-   
+
     string Id;
     bool encontrado;
     do
@@ -755,7 +755,7 @@ void RegistrarTecnico()
                 Console.Write(new string(' ', Console.WindowWidth));
 
                 Console.SetCursorPosition(0, fila);
-                
+
                 break;
             }
         }
@@ -1019,7 +1019,7 @@ void IncidenciasPorCategoria()
         }
     }
 
-    Console.ForegroundColor=ConsoleColor.DarkYellow;
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR CATEGORÍA =====");
     Console.ResetColor();
     Console.WriteLine($"Hardware: {hardware}");
@@ -1236,7 +1236,7 @@ void TecnicoMasOcupado()
             mayor = i;
     }
 
-    Console.ForegroundColor= ConsoleColor.DarkYellow;
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== TÉCNICO MÁS OCUPADO =====");
     Console.ResetColor();
     Console.WriteLine($"Nombre: {tecnicos[mayor].nombre}");
@@ -1292,7 +1292,9 @@ void AulaConMasReportes()
         for (int j = 0; j < cantidad; j++)
         {
             if (incidencias[i].Aula == incidencias[j].Aula)
+            {
                 contador++;
+            }
         }
 
         if (contador > maximo)
@@ -1315,7 +1317,8 @@ void HistorialMensual()
 {
     Console.Clear();
 
-    int[] meses = new int[12];
+    Dictionary<int, int[]> historial = new Dictionary<int, int[]>();
+
     for (int i = 0; i < cantidad; i++)
     {
         string[] fecha = incidencias[i].Fecha.Split('/');
@@ -1323,17 +1326,30 @@ void HistorialMensual()
         if (fecha.Length == 2)
         {
             int mes = int.Parse(fecha[0]);
-            meses[mes - 1]++;
+            int anio = int.Parse(fecha[1]);
+
+            if (!historial.ContainsKey(anio))
+            {
+                historial[anio] = new int[12];
+            }
+
+            historial[anio][mes - 1]++;
         }
     }
 
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== HISTORIAL MENSUAL =====");
     Console.ResetColor();
-    
-    for (int i = 0; i < 12; i++)
+
+    foreach (var anio in historial.OrderBy(a => a.Key))
     {
-        Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
+        Console.WriteLine("\nAño " + anio.Key);
+
+        for (int i = 0; i < 12; i++)
+        {
+            Console.WriteLine(
+                "Mes " + (i + 1) + ": " + anio.Value[i] + " incidencias");
+        }
     }
 
     Console.ReadKey(true);
@@ -1343,28 +1359,48 @@ void ComparacionEntreMeses()
 {
     Console.Clear();
 
-    int[] meses = new int[12];
+    Dictionary<string, int> meses = new Dictionary<string, int>();
+
     for (int i = 0; i < cantidad; i++)
     {
-        string[] fecha = incidencias[i].Fecha.Split('/');
-        if (fecha.Length == 2)
+        string fecha = incidencias[i].Fecha;
+
+        if (meses.ContainsKey(fecha))
         {
-            int mes = int.Parse(fecha[0]);
-            meses[mes - 1]++;
+            meses[fecha]++;
+        }
+        else
+        {
+            meses[fecha] = 1;
         }
     }
+
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
     Console.ResetColor();
 
-    for (int i = 1; i < 12; i++)
+
+    string[] listaMeses = meses.Keys
+        .OrderBy(f => DateTime.ParseExact(
+            f,
+            "MM/yyyy",
+            null))
+        .ToArray();
+
+
+    for (int i = 1; i < listaMeses.Length; i++)
     {
-        int diferencia = meses[i] - meses[i - 1];
+        int diferencia =
+            meses[listaMeses[i]] -
+            meses[listaMeses[i - 1]];
 
         Console.WriteLine(
-            "Mes " + i +
-            " -> Mes " + (i + 1) +
-            " = " + diferencia + " incidencias");
+            listaMeses[i - 1] +
+            " -> " +
+            listaMeses[i] +
+            " = " +
+            diferencia +
+            " incidencias");
     }
 
     Console.ReadKey(true);
@@ -1576,7 +1612,7 @@ void CargarTecnicos()
     }
 
     archivo.Close();
-    Console.ForegroundColor= ConsoleColor.DarkGreen;
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("Técnicos cargados correctamente.");
     Console.ResetColor();
     Console.ReadKey(true);
@@ -1630,7 +1666,7 @@ void Main()
                 do
                 {
                     opcionTecnicos = MenuTecnicos();
-                    switch(opcionTecnicos)
+                    switch (opcionTecnicos)
                     {
                         case 1:
                             RegistrarTecnico();
