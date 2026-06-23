@@ -9,7 +9,7 @@ int cantidadTecnicos = 0;
 int MainMenu()
 {
     Console.Clear();
-    Console.ForegroundColor = ConsoleColor.DarkBlue;
+    Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("=========================================");
     Console.WriteLine("=== SISTEMA DE SOPORTE TECNOLOGIA UAM ===");
     Console.WriteLine("=========================================");
@@ -34,7 +34,7 @@ int MainMenu()
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
         Console.ResetColor();
-        Console.ReadKey();
+        Console.ReadKey(true);
         return -1;
     }
 
@@ -63,7 +63,7 @@ int MenuIncidencias()
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
         Console.ResetColor();
-        Console.ReadKey();
+        Console.ReadKey(true);
         return -1;
     }
 }
@@ -90,7 +90,7 @@ int MenuTecnicos()
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
         Console.ResetColor();
-        Console.ReadKey();
+        Console.ReadKey(true);
         return -1;
     }
 }
@@ -123,9 +123,25 @@ int MenuReportes()
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
         Console.ResetColor();
-        Console.ReadKey();
+        Console.ReadKey(true);
         return -1;
     }
+}
+
+void MostrarError(string mensaje)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(mensaje);
+    Console.ResetColor();
+
+    Console.ReadKey(true);
+
+    int filaError = Console.CursorTop - 1;
+
+    Console.SetCursorPosition(0, filaError);
+    Console.Write(new string(' ', Console.WindowWidth));
+
+    Console.SetCursorPosition(0, filaError);
 }
 
 // GESTION DE INCIDENCIAS
@@ -136,6 +152,7 @@ void CodigoIncidencia()
 
     do
     {
+        int fila = Console.CursorTop;
         repetido = false;
 
         Console.Write("Código de incidencia: ");
@@ -146,13 +163,15 @@ void CodigoIncidencia()
             if (incidencias[i].Codigo.ToUpper() == codigo.ToUpper())
             {
                 repetido = true;
+                MostrarError("El código ya existe.");
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: El código ya existe.");
-                Console.ResetColor();
+                Console.SetCursorPosition(0, fila);
+                Console.Write(new string(' ', Console.WindowWidth));
 
+                Console.SetCursorPosition(0, fila);
                 break;
             }
+
         }
 
     } while (repetido);
@@ -175,10 +194,6 @@ int TipoUsuario()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey();
         return -1;
     }
 }
@@ -216,10 +231,6 @@ int CategoriaIncidencia()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey();
         return -1;
     }
 }
@@ -264,10 +275,6 @@ int PrioridadIncidencia()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey();
         return -1;
     }
 }
@@ -285,10 +292,6 @@ int EstadoIncidencia()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey();
         return -1;
     }
 }
@@ -326,9 +329,11 @@ void RegistrarIncidencia()
             incidencias[cantidad].TipoUsuario = "Otro";
             break;
         default:
+            Console.ForegroundColor= ConsoleColor.DarkCyan;
             Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+            Console.ResetColor();
             incidencias[cantidad].TipoUsuario = "Otro";
-            Console.ReadKey();
+            Console.ReadKey(true);
             break;
     }
 
@@ -359,9 +364,11 @@ void RegistrarIncidencia()
             incidencias[cantidad].Categoria = "Otro";
             break;
         default:
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+            Console.ResetColor();
             incidencias[cantidad].Categoria = "Otro";
-            Console.ReadKey();
+            Console.ReadKey(true);
             break;
     }
 
@@ -385,9 +392,11 @@ void RegistrarIncidencia()
             incidencias[cantidad].Prioridad = "Crítica";
             break;
         default:
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
+            Console.ResetColor();
             incidencias[cantidad].Prioridad = "Baja";
-            Console.ReadKey();
+            Console.ReadKey(true);
             break;
     }
 
@@ -404,9 +413,11 @@ void RegistrarIncidencia()
             incidencias[cantidad].Estado = "Cerrada";
             break;
         default:
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
+            Console.ResetColor();
             incidencias[cantidad].Estado = "Abierta";
-            Console.ReadKey();
+            Console.ReadKey(true);
             break;
     }
  
@@ -415,7 +426,7 @@ void RegistrarIncidencia()
     Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.WriteLine("\nIncidencia registrada correctamente.");
     Console.ResetColor();
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void BuscarIncidencia()
@@ -463,7 +474,7 @@ void BuscarIncidencia()
         Console.ResetColor();
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
     Console.WriteLine();
 }
 
@@ -490,6 +501,55 @@ void ModificarIncidencia()
     {
         if (incidencias[i].Codigo == buscar)
         {
+            switch (TipoUsuario())
+            {
+                case 1:
+                    incidencias[cantidad].TipoUsuario = "Estudiante";
+                    break;
+                case 2:
+                    incidencias[cantidad].TipoUsuario = "Docente";
+                    break;
+                case 3:
+                    incidencias[cantidad].TipoUsuario = "Administrativo";
+                    break;
+                case 4:
+                    incidencias[cantidad].TipoUsuario = "Otro";
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+                    Console.ResetColor();
+                    incidencias[cantidad].TipoUsuario = "Otro";
+                    Console.ReadKey(true);
+                    break;
+            }
+
+            switch (CategoriaIncidencia())
+            {
+                case 1:
+                    incidencias[cantidad].Categoria = "Hardware";
+                    break;
+                case 2:
+                    incidencias[cantidad].Categoria = "Software";
+                    break;
+                case 3:
+                    incidencias[cantidad].Categoria = "Red";
+                    break;
+                case 4:
+                    incidencias[cantidad].Categoria = "Impresoras";
+                    break;
+                case 5:
+                    incidencias[cantidad].Categoria = "Otro";
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
+                    Console.ResetColor();
+                    incidencias[cantidad].Categoria = "Otro";
+                    Console.ReadKey(true);
+                    break;
+            }
+
             switch (EstadoIncidencia())
             {
                 case 1:
@@ -502,9 +562,11 @@ void ModificarIncidencia()
                     incidencias[cantidad].Estado = "Cerrada";
                     break;
                 default:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
+                    Console.ResetColor();
                     incidencias[cantidad].Estado = "Abierta";
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                     break;
             }
 
@@ -523,9 +585,11 @@ void ModificarIncidencia()
                     incidencias[cantidad].Prioridad = "Crítica";
                     break;
                 default:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
+                    Console.ResetColor();
                     incidencias[cantidad].Prioridad = "Baja";
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                     break;
             }
 
@@ -546,7 +610,7 @@ void ModificarIncidencia()
         Console.WriteLine("Incidencia no encontrada.");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
     Console.WriteLine();
 }
 
@@ -599,7 +663,7 @@ void EliminarIncidencia()
         Console.WriteLine("Incidencia no encontrada.");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
     Console.WriteLine();
 }
 
@@ -630,7 +694,7 @@ void MostrarIncidencias()
         }
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
     Console.WriteLine();
 }
 
@@ -642,7 +706,7 @@ void RegistrarTecnico()
     if (cantidadTecnicos == 50)
     {
         Console.WriteLine("No hay espacio para registrar más técnicos.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
     Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -656,13 +720,13 @@ void RegistrarTecnico()
     Console.ResetColor();
 
     Console.Write("ID: ");
-    int id = int.Parse(Console.ReadLine()!);
+    string Id = Console.ReadLine()!;
 
     bool encontrado = false;
 
     for (int i = 0; i < cantidadTecnicos; i++)
     {
-        if (tecnicos[i].id == id)
+        if (tecnicos[i].id.ToUpper() == Id.ToUpper())
         {
             encontrado = true;
             break;
@@ -672,11 +736,11 @@ void RegistrarTecnico()
     if (encontrado)
     {
         Console.WriteLine("ID ya registrado.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
-    tecnicos[cantidadTecnicos].id = id;
+    tecnicos[cantidadTecnicos].id = Id;
 
     Console.Write("Nombre: ");
     tecnicos[cantidadTecnicos].nombre = Console.ReadLine()!;
@@ -690,7 +754,7 @@ void RegistrarTecnico()
     cantidadTecnicos++;
 
     Console.WriteLine("\nTécnico registrado correctamente.");
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void MostrarTecnicos()
@@ -715,7 +779,9 @@ void MostrarTecnicos()
     {
         for (int i = 0; i < cantidadTecnicos; i++)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n====================");
+            Console.ResetColor();
             Console.WriteLine("ID: " + tecnicos[i].id);
             Console.WriteLine("Nombre: " + tecnicos[i].nombre);
             Console.WriteLine("Especialidad: " + tecnicos[i].especialidad);
@@ -724,7 +790,7 @@ void MostrarTecnicos()
         }
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void AsignarTecnico()
@@ -742,7 +808,7 @@ void AsignarTecnico()
     Console.ResetColor();
 
     Console.Write("Ingrese ID del técnico: ");
-    int buscar = int.Parse(Console.ReadLine()!);
+    string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
 
@@ -772,7 +838,7 @@ void AsignarTecnico()
         Console.WriteLine("Técnico no encontrado.");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void LiberarTecnico()
@@ -791,7 +857,7 @@ void LiberarTecnico()
     Console.ResetColor();
 
     Console.Write("Ingrese ID del técnico: ");
-    int buscar = int.Parse(Console.ReadLine()!);
+    string buscar = Console.ReadLine()!;
 
     bool encontrado = false;
 
@@ -813,7 +879,7 @@ void LiberarTecnico()
         Console.WriteLine("Técnico no encontrado.");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 //Reportes Y Estadísticas
@@ -844,7 +910,7 @@ void ReporteGeneral()
     Console.WriteLine($"En proceso: {proceso}");
     Console.WriteLine($"Cerradas: {cerradas}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void IncidenciasPorCategoria()
@@ -891,7 +957,7 @@ void IncidenciasPorCategoria()
     Console.WriteLine($"Impresoras: {impresoras}");
     Console.WriteLine($"Otros: {otros}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void IncidenciasPorPrioridad()
@@ -932,7 +998,7 @@ void IncidenciasPorPrioridad()
     Console.WriteLine($"Alta: {alta}");
     Console.WriteLine($"Crítica: {critica}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void IncidenciasPorEdificio()
@@ -1018,6 +1084,7 @@ void IncidenciasPorEdificio()
 
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("===== INCIDENCIAS POR EDIFICIO =====");
+    Console.ResetColor();
     Console.WriteLine($"Edificio A: {A}");
     Console.WriteLine($"Edificio B: {B}");
     Console.WriteLine($"Edificio C: {C}");
@@ -1035,7 +1102,7 @@ void IncidenciasPorEdificio()
     Console.WriteLine($"Edificio O: {O}");
     Console.WriteLine($"Edificio P: {P}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void IncidenciasPorPiso()
@@ -1077,7 +1144,7 @@ void IncidenciasPorPiso()
     Console.WriteLine($"Piso 3: {piso3}");
     Console.WriteLine($"Piso 4: {piso4}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void TecnicoMasOcupado()
@@ -1086,7 +1153,7 @@ void TecnicoMasOcupado()
     if (cantidadTecnicos == 0)
     {
         Console.WriteLine("No hay técnicos registrados.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
@@ -1104,7 +1171,7 @@ void TecnicoMasOcupado()
     Console.WriteLine($"Nombre: {tecnicos[mayor].nombre}");
     Console.WriteLine($"Casos: {tecnicos[mayor].casos}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void TecnicoMenosOcupado()
@@ -1113,7 +1180,7 @@ void TecnicoMenosOcupado()
     if (cantidadTecnicos == 0)
     {
         Console.WriteLine("No hay técnicos registrados.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
@@ -1131,7 +1198,7 @@ void TecnicoMenosOcupado()
     Console.WriteLine($"Nombre: {tecnicos[menor].nombre}");
     Console.WriteLine($"Casos: {tecnicos[menor].casos}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void AulaConMasReportes()
@@ -1140,7 +1207,7 @@ void AulaConMasReportes()
     if (cantidad == 0)
     {
         Console.WriteLine("No hay incidencias.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
@@ -1170,7 +1237,7 @@ void AulaConMasReportes()
     Console.WriteLine($"Aula: {aulaMayor}");
     Console.WriteLine($"Cantidad de incidencias: {maximo}");
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void HistorialMensual()
@@ -1198,7 +1265,7 @@ void HistorialMensual()
         Console.WriteLine("Mes " + (i + 1) + ": " + meses[i] + " incidencias");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void ComparacionEntreMeses()
@@ -1229,7 +1296,7 @@ void ComparacionEntreMeses()
             " = " + diferencia + " incidencias");
     }
 
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void GuardarIncidencias()
@@ -1264,7 +1331,7 @@ void CargarIncidencias()
     if (!File.Exists("incidencias.csv"))
     {
         Console.WriteLine("No existe el archivo.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
@@ -1319,7 +1386,7 @@ void GuardarTecnicos()
     Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("Técnicos guardados correctamente.");
     Console.ResetColor();
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void CargarTecnicos()
@@ -1327,7 +1394,7 @@ void CargarTecnicos()
     if (!File.Exists("tecnicos.csv"))
     {
         Console.WriteLine("No existe el archivo.");
-        Console.ReadKey();
+        Console.ReadKey(true);
         return;
     }
 
@@ -1343,7 +1410,7 @@ void CargarTecnicos()
 
         string[] datos = linea.Split(',');
 
-        tecnicos[cantidadTecnicos].id = int.Parse(datos[0]);
+        tecnicos[cantidadTecnicos].id = datos[0];
         tecnicos[cantidadTecnicos].nombre = datos[1];
         tecnicos[cantidadTecnicos].especialidad = datos[2];
         tecnicos[cantidadTecnicos].casos = int.Parse(datos[3]);
@@ -1355,7 +1422,7 @@ void CargarTecnicos()
     Console.ForegroundColor= ConsoleColor.DarkGreen;
     Console.WriteLine("Técnicos cargados correctamente.");
     Console.ResetColor();
-    Console.ReadKey();
+    Console.ReadKey(true);
 }
 
 void Main()
@@ -1393,7 +1460,10 @@ void Main()
                             Console.WriteLine("Regresando al menú principal...");
                             break;
                         default:
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Opción no válida. Intente nuevamente.");
+                            Console.ResetColor();
+                            Console.ReadKey(true);
                             break;
                     }
                 } while (opcionIncidencias != 0);
@@ -1421,7 +1491,10 @@ void Main()
                             Console.WriteLine("Regresando al menú principal...");
                             break;
                         default:
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Opción no válida. Intente nuevamente.");
+                            Console.ResetColor();
+                            Console.ReadKey(true);
                             break;
                     }
                 } while (opcionTecnicos != 0);
@@ -1474,7 +1547,10 @@ void Main()
                             Console.WriteLine("Regresando al menú principal...");
                             break;
                         default:
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Opción no válida. Intente nuevamente.");
+                            Console.ResetColor();
+                            Console.ReadKey(true);
                             break;
                     }
 
@@ -1494,7 +1570,10 @@ void Main()
                 Console.ResetColor();
                 break;
             default:
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Opción no válida. Intente nuevamente.");
+                Console.ResetColor();
+                Console.ReadKey(true);
                 break;
         }
     } while (opcionMain != 0);
@@ -1517,7 +1596,7 @@ struct Incidencia
 
 struct Tecnico
 {
-    public int id;
+    public string id;
     public string nombre;
     public string especialidad;
     public bool disponible;
