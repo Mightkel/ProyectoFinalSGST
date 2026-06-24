@@ -32,10 +32,6 @@ int MainMenu()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 
