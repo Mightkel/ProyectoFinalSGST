@@ -315,10 +315,14 @@ void RegistrarIncidencia()
     Console.ResetColor();
 
     CodigoIncidencia();
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     Console.Write("Nombre del reportante: ");
     incidencias[cantidad].Reportante = Console.ReadLine()!;
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     switch (TipoUsuario())
     {
         case 1:
@@ -341,7 +345,9 @@ void RegistrarIncidencia()
             Console.ReadKey(true);
             break;
     }
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     while (true)
     {
         int aulaResultado = AulaIncidencia();
@@ -350,7 +356,9 @@ void RegistrarIncidencia()
             break;
         }
     }
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     switch (CategoriaIncidencia())
     {
         case 1:
@@ -376,12 +384,18 @@ void RegistrarIncidencia()
             Console.ReadKey(true);
             break;
     }
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     Console.Write("Descripcion: ");
     incidencias[cantidad].Descripcion = Console.ReadLine()!;
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     incidencias[cantidad].Fecha = LeerFecha();
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     switch (PrioridadIncidencia())
     {
         case 1:
@@ -405,7 +419,9 @@ void RegistrarIncidencia()
             break;
     }
 
-
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine("\n===========================\n");
+    Console.ResetColor();
     switch (EstadoIncidencia())
     {
         case 1:
@@ -506,6 +522,9 @@ void ModificarIncidencia()
     {
         if (incidencias[i].Codigo == buscar)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
+            Console.ResetColor();
             switch (TipoUsuario())
             {
                 case 1:
@@ -528,7 +547,9 @@ void ModificarIncidencia()
                     Console.ReadKey(true);
                     break;
             }
-
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
+            Console.ResetColor();
             switch (CategoriaIncidencia())
             {
                 case 1:
@@ -554,7 +575,9 @@ void ModificarIncidencia()
                     Console.ReadKey(true);
                     break;
             }
-
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
+            Console.ResetColor();
             switch (EstadoIncidencia())
             {
                 case 1:
@@ -574,7 +597,9 @@ void ModificarIncidencia()
                     Console.ReadKey(true);
                     break;
             }
-
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
+            Console.ResetColor();
             switch (PrioridadIncidencia())
             {
                 case 1:
@@ -597,7 +622,9 @@ void ModificarIncidencia()
                     Console.ReadKey(true);
                     break;
             }
-
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
+            Console.ResetColor();
             Console.Write("Nueva descripcion: ");
             incidencias[i].Descripcion = Console.ReadLine()!;
 
@@ -694,8 +721,8 @@ void MostrarIncidencias()
     {
         for (int i = 0; i < cantidad; i++)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n===========================");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n===========================\n");
             Console.ResetColor();
             Console.WriteLine("Codigo: " + incidencias[i].Codigo);
             Console.WriteLine("Reportante: " + incidencias[i].Reportante);
@@ -809,6 +836,7 @@ void MostrarTecnicos()
             Console.WriteLine("Especialidad: " + tecnicos[i].especialidad);
             Console.WriteLine("Casos: " + tecnicos[i].casos);
             Console.WriteLine("Disponible: " + tecnicos[i].disponible);
+            Console.WriteLine("Incidencia Asignada: " + tecnicos[i].incidenciaAsignada);
         }
     }
 
@@ -828,9 +856,10 @@ void AsignarTecnico()
     Console.ForegroundColor = ConsoleColor.DarkCyan;
     Console.WriteLine("=========================================");
     Console.ResetColor();
-
+    Console.ForegroundColor = ConsoleColor.Yellow;
     Console.Write("Ingrese ID del técnico: ");
     string buscar = Console.ReadLine()!;
+    Console.ResetColor();
 
     bool encontrado = false;
 
@@ -840,16 +869,54 @@ void AsignarTecnico()
         {
             if (tecnicos[i].disponible)
             {
-                tecnicos[i].disponible = false;
-                tecnicos[i].casos++;
+                Console.ReadKey(true);
+                Console.Clear();
 
-                Console.WriteLine("\nTécnico asignado.");
+                int fila = Console.CursorTop;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Ingrese el Código de la incidencia a asignar: ");
+                string buscarincidencia = Console.ReadLine()!;
+                Console.ResetColor();
+
+                bool encontradoincidencia = false;
+
+                for (int j = 0; j < cantidad; j++)
+                {
+                    if (incidencias[j].Codigo == buscarincidencia)
+                    {
+                        encontradoincidencia = true;
+                        tecnicos[i].incidenciaAsignada = buscarincidencia;
+
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine("\nTécnico asignado.");
+                        Console.ResetColor();
+
+                        tecnicos[i].disponible = false;
+                        tecnicos[i].casos++;
+                        encontrado = true;
+
+                        break;
+                    }
+                }
+
+                if (!encontradoincidencia)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine("Incidencia no encontrada.");
+                    Console.ResetColor();
+
+                    Console.SetCursorPosition(0, fila);
+                    Console.Write(new string(' ', Console.WindowWidth));
+
+                    Console.SetCursorPosition(0, fila);
+                }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("El técnico no está disponible.");
+                Console.ResetColor();
             }
-
             encontrado = true;
             break;
         }
@@ -888,6 +955,7 @@ void LiberarTecnico()
         if (tecnicos[i].id == buscar)
         {
             tecnicos[i].disponible = true;
+            tecnicos[i].incidenciaAsignada = "";
 
             Console.WriteLine("\nTécnico liberado.");
 
@@ -937,7 +1005,7 @@ void ModificarTecnico()
             Console.Write("Nueva especialidad: ");
             tecnicos[i].especialidad = Console.ReadLine()!;
 
-            Console.ForegroundColor= ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("\nTécnico modificado correctamente.");
             Console.ResetColor();
 
@@ -1438,6 +1506,14 @@ void ComparacionEntreMeses()
             null))
         .ToArray();
 
+    if (listaMeses.Length < 2)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("No hay suficientes meses para comparar.");
+        Console.ResetColor();
+        Console.ReadKey(true);
+        return;
+    }
 
     for (int i = 1; i < listaMeses.Length; i++)
     {
@@ -1622,7 +1698,8 @@ void GuardarTecnicos()
             tecnicos[i].id + "," +
             tecnicos[i].nombre + "," +
             tecnicos[i].especialidad + "," +
-            tecnicos[i].casos
+            tecnicos[i].casos + "," +
+            tecnicos[i].incidenciaAsignada
         );
     }
 
@@ -1658,6 +1735,7 @@ void CargarTecnicos()
         tecnicos[cantidadTecnicos].nombre = datos[1];
         tecnicos[cantidadTecnicos].especialidad = datos[2];
         tecnicos[cantidadTecnicos].casos = int.Parse(datos[3]);
+        tecnicos[cantidadTecnicos].incidenciaAsignada = datos[4];
 
         cantidadTecnicos++;
     }
@@ -1857,4 +1935,5 @@ struct Tecnico
     public string especialidad;
     public bool disponible;
     public int casos;
+    public string incidenciaAsignada;
 }
