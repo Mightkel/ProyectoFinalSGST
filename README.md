@@ -138,3 +138,9 @@ Durante el desarrollo de este proyecto se aplicaron conceptos fundamentales de p
 ## Estado del Proyecto
 
 Proyecto académico desarrollado para la asignatura **Introducción a la Programación** de la Universidad Americana (UAM).
+
+---
+
+## Intrucciones para archivos de ejemplo (CSV)
+
+Mover 
