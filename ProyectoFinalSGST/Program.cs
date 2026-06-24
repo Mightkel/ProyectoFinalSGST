@@ -314,6 +314,16 @@ void RegistrarIncidencia()
     Console.WriteLine("=========================================");
     Console.ResetColor();
 
+    if (cantidad >= 100)
+    {
+        Console.ForegroundColor= ConsoleColor.DarkRed;
+        Console.WriteLine("===============");
+        Console.WriteLine("No hay espacio.");
+        Console.WriteLine("===============");
+        Console.ResetColor();
+        return;
+    }
+
     CodigoIncidencia();
     Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine("\n===========================\n");
@@ -528,22 +538,22 @@ void ModificarIncidencia()
             switch (TipoUsuario())
             {
                 case 1:
-                    incidencias[cantidad].TipoUsuario = "Estudiante";
+                    incidencias[i].TipoUsuario = "Estudiante";
                     break;
                 case 2:
-                    incidencias[cantidad].TipoUsuario = "Docente";
+                    incidencias[i].TipoUsuario = "Docente";
                     break;
                 case 3:
-                    incidencias[cantidad].TipoUsuario = "Administrativo";
+                    incidencias[i].TipoUsuario = "Administrativo";
                     break;
                 case 4:
-                    incidencias[cantidad].TipoUsuario = "Otro";
+                    incidencias[i].TipoUsuario = "Otro";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].TipoUsuario = "Otro";
+                    incidencias[i].TipoUsuario = "Otro";
                     Console.ReadKey(true);
                     break;
             }
@@ -553,25 +563,25 @@ void ModificarIncidencia()
             switch (CategoriaIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Categoria = "Hardware";
+                    incidencias[i].Categoria = "Hardware";
                     break;
                 case 2:
-                    incidencias[cantidad].Categoria = "Software";
+                    incidencias[i].Categoria = "Software";
                     break;
                 case 3:
-                    incidencias[cantidad].Categoria = "Red";
+                    incidencias[i].Categoria = "Red";
                     break;
                 case 4:
-                    incidencias[cantidad].Categoria = "Impresoras";
+                    incidencias[i].Categoria = "Impresoras";
                     break;
                 case 5:
-                    incidencias[cantidad].Categoria = "Otro";
+                    incidencias[i].Categoria = "Otro";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Categoria = "Otro";
+                    incidencias[i].Categoria = "Otro";
                     Console.ReadKey(true);
                     break;
             }
@@ -581,19 +591,19 @@ void ModificarIncidencia()
             switch (EstadoIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Estado = "Abierta";
+                    incidencias[i].Estado = "Abierta";
                     break;
                 case 2:
-                    incidencias[cantidad].Estado = "En proceso";
+                    incidencias[i].Estado = "En proceso";
                     break;
                 case 3:
-                    incidencias[cantidad].Estado = "Cerrada";
+                    incidencias[i].Estado = "Cerrada";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Estado = "Abierta";
+                    incidencias[i].Estado = "Abierta";
                     Console.ReadKey(true);
                     break;
             }
@@ -603,22 +613,22 @@ void ModificarIncidencia()
             switch (PrioridadIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Prioridad = "Baja";
+                    incidencias[i].Prioridad = "Baja";
                     break;
                 case 2:
-                    incidencias[cantidad].Prioridad = "Media";
+                    incidencias[i].Prioridad = "Media";
                     break;
                 case 3:
-                    incidencias[cantidad].Prioridad = "Alta";
+                    incidencias[i].Prioridad = "Alta";
                     break;
                 case 4:
-                    incidencias[cantidad].Prioridad = "Crítica";
+                    incidencias[i].Prioridad = "Crítica";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Prioridad = "Baja";
+                    incidencias[i].Prioridad = "Baja";
                     Console.ReadKey(true);
                     break;
             }
@@ -891,6 +901,7 @@ void AsignarTecnico()
                         Console.WriteLine("\nTécnico asignado.");
                         Console.ResetColor();
 
+                        incidencias[j].Estado = "En proceso";
                         tecnicos[i].disponible = false;
                         tecnicos[i].casos++;
                         encontrado = true;
@@ -1690,7 +1701,7 @@ void GuardarTecnicos()
 {
     StreamWriter archivo = new StreamWriter("tecnicos.csv");
 
-    archivo.WriteLine("Id,Nombre,Especialidad,CasosAsignados");
+    archivo.WriteLine("Id,Nombre,Especialidad,Disponibilidad,CasosAsignados,IncidenciaAsignada");
 
     for (int i = 0; i < cantidadTecnicos; i++)
     {
@@ -1698,6 +1709,7 @@ void GuardarTecnicos()
             tecnicos[i].id + "," +
             tecnicos[i].nombre + "," +
             tecnicos[i].especialidad + "," +
+            tecnicos[i].disponible + "," +
             tecnicos[i].casos + "," +
             tecnicos[i].incidenciaAsignada
         );
@@ -1734,8 +1746,9 @@ void CargarTecnicos()
         tecnicos[cantidadTecnicos].id = datos[0];
         tecnicos[cantidadTecnicos].nombre = datos[1];
         tecnicos[cantidadTecnicos].especialidad = datos[2];
-        tecnicos[cantidadTecnicos].casos = int.Parse(datos[3]);
-        tecnicos[cantidadTecnicos].incidenciaAsignada = datos[4];
+        tecnicos[cantidadTecnicos].disponible = bool.Parse(datos[3]);
+        tecnicos[cantidadTecnicos].casos = int.Parse(datos[4]);
+        tecnicos[cantidadTecnicos].incidenciaAsignada = datos[5];
 
         cantidadTecnicos++;
     }
