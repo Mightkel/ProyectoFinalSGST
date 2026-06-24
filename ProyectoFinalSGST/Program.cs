@@ -1497,36 +1497,45 @@ void ComparacionEntreMeses()
     Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
     Console.ResetColor();
 
+    var años = meses.Keys
+        .GroupBy(f => f.Split('/')[1])
+        .OrderBy(g => g.Key);
 
-    string[] listaMeses = meses.Keys
-        .OrderBy(f => DateTime.ParseExact(
-            f,
-            "MM/yyyy",
-            null))
-        .ToArray();
+    bool hayComparaciones = false;
 
-    if (listaMeses.Length < 2)
+    foreach (var año in años)
     {
-        Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine("No hay suficientes meses para comparar.");
+        string[] listaMeses = año
+            .OrderBy(f => DateTime.ParseExact(f, "MM/yyyy", null))
+            .ToArray();
+
+        if (listaMeses.Length < 2)
+        {
+            continue;
+        }
+
+        hayComparaciones = true;
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"\nAño {año.Key}");
         Console.ResetColor();
-        Console.ReadKey(true);
-        return;
+
+        for (int i = 1; i < listaMeses.Length; i++)
+        {
+            int diferencia =
+                meses[listaMeses[i]] -
+                meses[listaMeses[i - 1]];
+
+            Console.WriteLine(
+                $"{listaMeses[i - 1]} -> {listaMeses[i]} = {diferencia} incidencias");
+        }
     }
 
-    for (int i = 1; i < listaMeses.Length; i++)
+    if (!hayComparaciones)
     {
-        int diferencia =
-            meses[listaMeses[i]] -
-            meses[listaMeses[i - 1]];
-
-        Console.WriteLine(
-            listaMeses[i - 1] +
-            " -> " +
-            listaMeses[i] +
-            " = " +
-            diferencia +
-            " incidencias");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("No hay años con suficientes meses para comparar.");
+        Console.ResetColor();
     }
 
     Console.ReadKey(true);
