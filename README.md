@@ -63,8 +63,46 @@ estructuras, arreglos, matrices, funciones, validaciones, manejo de archivos y m
 * Guardar información en archivos CSV.
 * Cargar información desde archivos CSV.
 * Conservación de datos entre ejecuciones del programa.
+* 
+---
+
+## Instalación y Ejecución
+
+### Requisitos
+
+Para ejecutar correctamente el proyecto se necesita:
+
+* Visual Studio 2022 o superior.
+* .NET SDK compatible con la versión utilizada en el proyecto.
+* Git (opcional, en caso de clonar el repositorio).
+
+### Instalación
+
+1. Clonar el repositorio utilizando Git:
+
+```bash
+git clone https://github.com/Mightkel/ProyectoFinalSGST.git
+```
+
+2. Abrir el proyecto en Visual Studio.
+3. Verificar que los archivos .csv estén correctamente instaladas.
+
+```text
+Datos/
+├── incidencias.csv
+└── tecnicos.csv
+```
 
 ---
+
+### Ejecución
+
+Abrir el proyecto en Visual Studio.
+Seleccionar el proyecto principal como proyecto de inicio.
+Ejecutar la aplicación utilizando el botón Iniciar o presionando la tecla F5.
+
+---
+
 
 ## Tecnologías Utilizadas
 
