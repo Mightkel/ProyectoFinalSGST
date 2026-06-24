@@ -78,7 +78,8 @@ int MenuTecnicos()
     Console.WriteLine("2. Mostrar técnicos");
     Console.WriteLine("3. Asignar técnico");
     Console.WriteLine("4. Liberar técnico");
-    Console.WriteLine("5. Eliminar técnico");
+    Console.WriteLine("5. Modificar técnico");
+    Console.WriteLine("6. Eliminar técnico");
     Console.WriteLine("0. Regresar");
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.Write("Digite su opción: ");
@@ -903,6 +904,56 @@ void LiberarTecnico()
     Console.ReadKey(true);
 }
 
+void ModificarTecnico()
+{
+    Console.Clear();
+
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("           MODIFICAR TÉCNICOS            ");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.DarkCyan;
+    Console.WriteLine("=========================================");
+    Console.ResetColor();
+
+    Console.Write("Ingrese ID del técnico a modificar: ");
+    string buscar = Console.ReadLine()!;
+
+    bool encontrado = false;
+
+    for (int i = 0; i < cantidadTecnicos; i++)
+    {
+        if (tecnicos[i].id == buscar)
+        {
+            Console.WriteLine("\nDatos actuales:");
+            Console.WriteLine("Nombre: " + tecnicos[i].nombre);
+            Console.WriteLine("Especialidad: " + tecnicos[i].especialidad);
+
+            Console.Write("\nNuevo nombre: ");
+            tecnicos[i].nombre = Console.ReadLine()!;
+
+            Console.Write("Nueva especialidad: ");
+            tecnicos[i].especialidad = Console.ReadLine()!;
+
+            Console.ForegroundColor= ConsoleColor.DarkCyan;
+            Console.WriteLine("\nTécnico modificado correctamente.");
+            Console.ResetColor();
+
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        Console.WriteLine("Técnico no encontrado.");
+    }
+
+    Console.ReadKey();
+}
+
 void EliminarTecnico()
 {
     Console.Clear();
@@ -1681,6 +1732,9 @@ void Main()
                             LiberarTecnico();
                             break;
                         case 5:
+                            ModificarTecnico();
+                            break;
+                        case 6:
                             EliminarTecnico();
                             break;
                         case 0:
