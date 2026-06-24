@@ -61,10 +61,6 @@ int MenuIncidencias()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -90,10 +86,6 @@ int MenuTecnicos()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -125,10 +117,6 @@ int MenuReportes()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -1701,7 +1689,7 @@ void GuardarTecnicos()
 {
     StreamWriter archivo = new StreamWriter("tecnicos.csv");
 
-    archivo.WriteLine("Id,Nombre,Especialidad,Disponibilidad,CasosAsignados,IncidenciaAsignada");
+    archivo.WriteLine("Id,Nombre,Especialidad,CasosAsignados,IncidenciaAsignada");
 
     for (int i = 0; i < cantidadTecnicos; i++)
     {
@@ -1709,7 +1697,6 @@ void GuardarTecnicos()
             tecnicos[i].id + "," +
             tecnicos[i].nombre + "," +
             tecnicos[i].especialidad + "," +
-            tecnicos[i].disponible + "," +
             tecnicos[i].casos + "," +
             tecnicos[i].incidenciaAsignada
         );
@@ -1746,9 +1733,8 @@ void CargarTecnicos()
         tecnicos[cantidadTecnicos].id = datos[0];
         tecnicos[cantidadTecnicos].nombre = datos[1];
         tecnicos[cantidadTecnicos].especialidad = datos[2];
-        tecnicos[cantidadTecnicos].disponible = bool.Parse(datos[3]);
-        tecnicos[cantidadTecnicos].casos = int.Parse(datos[4]);
-        tecnicos[cantidadTecnicos].incidenciaAsignada = datos[5];
+        tecnicos[cantidadTecnicos].casos = int.Parse(datos[3]);
+        tecnicos[cantidadTecnicos].incidenciaAsignada = datos[4];
 
         cantidadTecnicos++;
     }
