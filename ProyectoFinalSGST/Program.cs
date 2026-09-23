@@ -32,10 +32,6 @@ int MainMenu()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 
@@ -61,10 +57,6 @@ int MenuIncidencias()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -90,10 +82,6 @@ int MenuTecnicos()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -125,10 +113,6 @@ int MenuReportes()
     }
     catch (FormatException)
     {
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-        Console.ResetColor();
-        Console.ReadKey(true);
         return -1;
     }
 }
@@ -313,6 +297,16 @@ void RegistrarIncidencia()
     Console.ForegroundColor = ConsoleColor.DarkCyan;
     Console.WriteLine("=========================================");
     Console.ResetColor();
+
+    if (cantidad >= 100)
+    {
+        Console.ForegroundColor= ConsoleColor.DarkRed;
+        Console.WriteLine("===============");
+        Console.WriteLine("No hay espacio.");
+        Console.WriteLine("===============");
+        Console.ResetColor();
+        return;
+    }
 
     CodigoIncidencia();
     Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -528,22 +522,22 @@ void ModificarIncidencia()
             switch (TipoUsuario())
             {
                 case 1:
-                    incidencias[cantidad].TipoUsuario = "Estudiante";
+                    incidencias[i].TipoUsuario = "Estudiante";
                     break;
                 case 2:
-                    incidencias[cantidad].TipoUsuario = "Docente";
+                    incidencias[i].TipoUsuario = "Docente";
                     break;
                 case 3:
-                    incidencias[cantidad].TipoUsuario = "Administrativo";
+                    incidencias[i].TipoUsuario = "Administrativo";
                     break;
                 case 4:
-                    incidencias[cantidad].TipoUsuario = "Otro";
+                    incidencias[i].TipoUsuario = "Otro";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].TipoUsuario = "Otro";
+                    incidencias[i].TipoUsuario = "Otro";
                     Console.ReadKey(true);
                     break;
             }
@@ -553,25 +547,25 @@ void ModificarIncidencia()
             switch (CategoriaIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Categoria = "Hardware";
+                    incidencias[i].Categoria = "Hardware";
                     break;
                 case 2:
-                    incidencias[cantidad].Categoria = "Software";
+                    incidencias[i].Categoria = "Software";
                     break;
                 case 3:
-                    incidencias[cantidad].Categoria = "Red";
+                    incidencias[i].Categoria = "Red";
                     break;
                 case 4:
-                    incidencias[cantidad].Categoria = "Impresoras";
+                    incidencias[i].Categoria = "Impresoras";
                     break;
                 case 5:
-                    incidencias[cantidad].Categoria = "Otro";
+                    incidencias[i].Categoria = "Otro";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Otro' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Categoria = "Otro";
+                    incidencias[i].Categoria = "Otro";
                     Console.ReadKey(true);
                     break;
             }
@@ -581,19 +575,19 @@ void ModificarIncidencia()
             switch (EstadoIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Estado = "Abierta";
+                    incidencias[i].Estado = "Abierta";
                     break;
                 case 2:
-                    incidencias[cantidad].Estado = "En proceso";
+                    incidencias[i].Estado = "En proceso";
                     break;
                 case 3:
-                    incidencias[cantidad].Estado = "Cerrada";
+                    incidencias[i].Estado = "Cerrada";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Abierta' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Estado = "Abierta";
+                    incidencias[i].Estado = "Abierta";
                     Console.ReadKey(true);
                     break;
             }
@@ -603,22 +597,22 @@ void ModificarIncidencia()
             switch (PrioridadIncidencia())
             {
                 case 1:
-                    incidencias[cantidad].Prioridad = "Baja";
+                    incidencias[i].Prioridad = "Baja";
                     break;
                 case 2:
-                    incidencias[cantidad].Prioridad = "Media";
+                    incidencias[i].Prioridad = "Media";
                     break;
                 case 3:
-                    incidencias[cantidad].Prioridad = "Alta";
+                    incidencias[i].Prioridad = "Alta";
                     break;
                 case 4:
-                    incidencias[cantidad].Prioridad = "Crítica";
+                    incidencias[i].Prioridad = "Crítica";
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("Opción no válida. Se asignará 'Baja' por defecto.");
                     Console.ResetColor();
-                    incidencias[cantidad].Prioridad = "Baja";
+                    incidencias[i].Prioridad = "Baja";
                     Console.ReadKey(true);
                     break;
             }
@@ -891,6 +885,7 @@ void AsignarTecnico()
                         Console.WriteLine("\nTécnico asignado.");
                         Console.ResetColor();
 
+                        incidencias[j].Estado = "En proceso";
                         tecnicos[i].disponible = false;
                         tecnicos[i].casos++;
                         encontrado = true;
@@ -1498,36 +1493,45 @@ void ComparacionEntreMeses()
     Console.WriteLine("===== COMPARACIÓN ENTRE MESES =====");
     Console.ResetColor();
 
+    var años = meses.Keys
+        .GroupBy(f => f.Split('/')[1])
+        .OrderBy(g => g.Key);
 
-    string[] listaMeses = meses.Keys
-        .OrderBy(f => DateTime.ParseExact(
-            f,
-            "MM/yyyy",
-            null))
-        .ToArray();
+    bool hayComparaciones = false;
 
-    if (listaMeses.Length < 2)
+    foreach (var año in años)
     {
-        Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine("No hay suficientes meses para comparar.");
+        string[] listaMeses = año
+            .OrderBy(f => DateTime.ParseExact(f, "MM/yyyy", null))
+            .ToArray();
+
+        if (listaMeses.Length < 2)
+        {
+            continue;
+        }
+
+        hayComparaciones = true;
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"\nAño {año.Key}");
         Console.ResetColor();
-        Console.ReadKey(true);
-        return;
+
+        for (int i = 1; i < listaMeses.Length; i++)
+        {
+            int diferencia =
+                meses[listaMeses[i]] -
+                meses[listaMeses[i - 1]];
+
+            Console.WriteLine(
+                $"{listaMeses[i - 1]} -> {listaMeses[i]} = {diferencia} incidencias");
+        }
     }
 
-    for (int i = 1; i < listaMeses.Length; i++)
+    if (!hayComparaciones)
     {
-        int diferencia =
-            meses[listaMeses[i]] -
-            meses[listaMeses[i - 1]];
-
-        Console.WriteLine(
-            listaMeses[i - 1] +
-            " -> " +
-            listaMeses[i] +
-            " = " +
-            diferencia +
-            " incidencias");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("No hay años con suficientes meses para comparar.");
+        Console.ResetColor();
     }
 
     Console.ReadKey(true);
@@ -1690,7 +1694,7 @@ void GuardarTecnicos()
 {
     StreamWriter archivo = new StreamWriter("tecnicos.csv");
 
-    archivo.WriteLine("Id,Nombre,Especialidad,CasosAsignados");
+    archivo.WriteLine("Id,Nombre,Especialidad,CasosAsignados,IncidenciaAsignada");
 
     for (int i = 0; i < cantidadTecnicos; i++)
     {
